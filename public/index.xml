@@ -4,13 +4,13 @@
     <ToastService ui:ref="toasters" />
     <MetadataService ui:ref="meta" url="{metaUrl}" lang="{lang}" />
     <AsyncLoader isLoading="<-meta.ready|not" title="🚀 Launching app" subtitle="check for the actual version" error="<-meta.error" onError="-> nav.reload">
-      <AuthService ui:ref="auth" authUrl="{:apiBaseUrl}" persistence="session" initialToken=":params.token" afterSignedOut="->nav.reload"/>
+      <AuthService ui:ref="auth" authUrl="{:apiBaseUrl}" persistence="local" initialToken=":params.token" afterSignedOut="->nav.reload"/>
       <SignInPage ui:if="<-auth.isSignedIn|not">
         <ui:else>
           <NavigationService ui:ref="nav" title=":app.name" />
           <ApiClientService ui:ref="api" baseUrl="{:apiBaseUrl}" token="<-auth.token" onTokenExpired="-> auth.invalidateToken"/>
-          <UserService ui:ref="user" persistence="session" submit="->api.post" />
-          <GSheetsService ui:ref="db" kind="tasks" persistence="session" submit="->api.post"/>
+          <UserService ui:ref="user" persistence="local" submit="->api.post" />
+          <GSheetsService ui:ref="db" kind="tasks" persistence="local" submit="->api.post"/>
           <ItemCollectionController ui:ref="items" data="<- db.items" initials=":app.initialTags" />
           <PageRouter ui:props="<- nav.route" />
           <UserProfileModal data="<-user.info" ui:if="<-user.showProfile" />
@@ -89,7 +89,7 @@
         </Navbar:right>
       </Navbar>
       <AsyncLoader isLoading="<-db.isItemLoading" title="Loading item" subtitle="🚀 wait..." error="<- db.error">
-        <TabbedForma meta=":item_form" data="<-controller.item" change="-> controller.change" tabs=":itemForm.tabs" groups=":itemForm.groups" />
+        <TabbedForma meta=":forms.task" data="<-controller.item" change="-> controller.change" tabs=":itemForm.tabs" groups=":itemForm.groups" />
         <div class="" style="min-height: 3rem"></div>
         <FixedPanel bottom class="bg-secondary p-2" style="justify-content: flex-end;">
           <NavListCursor class="flex-1" ui:props="<- controller.itemNavInfo" />
@@ -107,7 +107,7 @@
 
   <component id="TasksCreateModal">
     <Modal ui:if="{open}" mode="lg" open="{open}" title="Add a new record" close="-> newItem.cancel">
-      <GroupForma meta=":item_form" data="{data}" change="->data" />
+      <GroupForma meta=":forms.task_new" data="{data}" change="->data" />
       <Modal:footer>
         <Btn icon="upload" title="Submit New" mode="primary" large data="{data}" action="-> newItem.submit" busy="<- db.busy"/>
       </Modal:footer>
@@ -141,7 +141,7 @@
 
   <component id="UserProfileModal">
     <Modal title="User profile" mode="lg" open="true" close="-> user.showProfile|not">
-      <Forma meta=":user_form" data="{data}" change="-> data" />
+      <Forma meta=":forms.profile" data="{data}" change="-> data" />
       <Modal:footer>
         <Btn icon="people" title="Save profile" mode="primary" large data="{data}" action="-> user.save" busy="<- user.isLoading"/>
       </Modal:footer>
@@ -149,7 +149,7 @@
   </component>
 
   <component id="DbLoadingIndicator">
-    <Invoke data="{data}" action="{action}" ui:if="hot"/>
+    <Invoke data="{data}" trigger="{data.id}" action="{action}" ui:if="hot"/>
     <ui:fragment ui:if="isLoading">
       <LoadingIndicator class="m-2" />
       <ui:else>
