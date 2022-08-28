@@ -84,18 +84,16 @@
           <BackButton href="#/main" />
         </Navbar:left>
         <Navbar:right>
-          <DbLoadingIndicator hot isLoading="<-db.isItemLoading" action="->db.item" data="{itemId|pack:id}"/>
+          <DbLoadingIndicator hot isLoading="<-db.isItemLoading" action="->db.item" data="{itemId|pack:id}" error="<- db.error"/>
           <UserBar info="<- user.info" />
         </Navbar:right>
       </Navbar>
-      <AsyncLoader isLoading="<-db.isItemLoading" title="Loading item" subtitle="🚀 wait..." error="<- db.error">
-        <TabbedForma meta=":forms.task" data="<-controller.item" change="-> controller.change" tabs=":itemForm.tabs" groups=":itemForm.groups" />
-        <div class="" style="min-height: 3rem"></div>
-        <FixedPanel bottom class="bg-secondary p-2" style="justify-content: flex-end;">
-          <NavListCursor class="flex-1" ui:props="<- controller.itemNavInfo" />
-          <Btn icon="upload" title="Submit" mode="primary" large action="-> controller.save" busy="<- db.busy" disabled="<- controller.touched|not"/>
-        </FixedPanel>
-      </AsyncLoader>
+      <TabbedForma meta=":forms.task" data="<-controller.item" change="-> controller.change" tabs=":itemForm.tabs" groups=":itemForm.groups" />
+      <div class="" style="min-height: 3rem"></div>
+      <FixedPanel bottom class="bg-secondary p-2" style="justify-content: flex-end;">
+        <NavListCursor class="flex-1" ui:props="<- controller.itemNavInfo" />
+        <Btn icon="upload" title="Submit" mode="primary" large action="-> controller.save" busy="<- db.busy" disabled="<- controller.touched|not"/>
+      </FixedPanel>
     </main>
   </component>
 
@@ -150,17 +148,18 @@
 
   <component id="TimeReportField">
     <TimeReportFieldController ui:ref="fieldCtrl" onChange="{onChange}" data="{value}"/>
-    <div bottom class="bg-secondary p-2">
-      <div bottom class="p-2 d-flex">
-        <TextField caption="Note" onChange="->fieldCtrl.note"/>
-        <EnumField caption="Hours" onChange="->fieldCtrl.hours" options=":enums.hours"/>
-        <Btn title="Add" class="mx-2 btn btn-primary" action="->fieldCtrl.addReport"/>
-      </div>
-      <div bottom class="p-2 d-flex" ui:for="report of <-fieldCtrl.actualData">
-        <TextField caption="Note" value="{report.note}" onChange="->fieldCtrl.note|assignKeyValue:id:@report.id"/>
-        <TextField caption="Hours" value="{report.hours}" onChange="->fieldCtrl.hours|assignKeyValue:id:@report.id"/>
-        <Btn title="Del" class="mx-2" data="{report.id|pack:id}" action="->fieldCtrl.delReport"/>
-      </div>
+    <div bottom class="bg-secondary p-2" style="display:grid; grid-template-columns: 60px 1fr 40px;column-gap: 10px; row-gap: 10px;">
+      <b>Hour</b>
+      <b>Note</b>
+      <Btn title="+" primary class="" action="->fieldCtrl.addReport"/>
+
+      <ui:fragment ui:for="report of <-fieldCtrl.actualData">
+        <select value="{report.hours}" change="->fieldCtrl.hours|assignKeyValue:id:@report.id">
+          <option ui:for="option of :enums.hours" selected="{option.id|equals:@report.hours}" value="{option.id}">{option.name}</option>
+        </select>
+        <input value="{report.note}" change="->fieldCtrl.note|assignKeyValue:id:@report.id"/>
+        <Btn title="x" class="" data="{report.id|pack:id}" action="->fieldCtrl.delReport"/>
+      </ui:fragment>
     </div>
   </component>
 
