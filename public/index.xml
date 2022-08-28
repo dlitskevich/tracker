@@ -116,13 +116,13 @@
 
   <component id="SignInPage">
     <main class="d-flex" style="height:350px;max-height:500;margin:auto;flex-direction:column;">
-      <ui:fragment ui:if="signup.value">
+      <ui:fragment ui:if="signup">
         <ui:then>
           <Navbar caption="Sign Up"/>
           <Forma meta=":signup_form" change="-> data" />
           <div class="flex-1"></div>
           <div bottom class="bg-secondary p-2 d-flex" style="justify-content: flex-end;">
-            <a class="flex-1" click="-> signup|assignKeyValue:value:false">Sign In</a>
+            <a class="flex-1" click="-> signup=false">Sign In</a>
             <Btn icon="upload" title="Sign up" mode="primary" large data="{data}" action="-> auth.signUp" busy="<- auth.busy"/>
           </div>
         </ui:then>
@@ -131,7 +131,7 @@
           <Forma meta=":sign_in_form" change="-> data" />
           <div class="flex-1"></div>
           <div bottom class="bg-secondary p-2 d-flex" style="justify-content: flex-end;">
-            <a class="flex-1" click="-> signup|assignKeyValue:value:true">Sign Up</a>
+            <a class="flex-1" click="-> signup=true">Sign Up</a>
             <Btn icon="upload" title="Sign in" mode="primary" large data="{data}" action="-> auth.signIn" busy="<- auth.busy"/>
           </div>
         </ui:else>
@@ -146,6 +146,22 @@
         <Btn icon="people" title="Save profile" mode="primary" large data="{data}" action="-> user.save" busy="<- user.isLoading"/>
       </Modal:footer>
     </Modal>
+  </component>
+
+  <component id="TimeReportField">
+    <TimeReportFieldController ui:ref="fieldCtrl" onChange="{onChange}" data="{value}"/>
+    <div bottom class="bg-secondary p-2">
+      <div bottom class="p-2 d-flex">
+        <TextField caption="Note" onChange="->fieldCtrl.note"/>
+        <EnumField caption="Hours" onChange="->fieldCtrl.hours" options=":enums.hours"/>
+        <Btn title="Add" class="mx-2 btn btn-primary" action="->fieldCtrl.addReport"/>
+      </div>
+      <div bottom class="p-2 d-flex" ui:for="report of <-fieldCtrl.actualData">
+        <TextField caption="Note" value="{report.note}" onChange="->fieldCtrl.note|assignKeyValue:id:@report.id"/>
+        <TextField caption="Hours" value="{report.hours}" onChange="->fieldCtrl.hours|assignKeyValue:id:@report.id"/>
+        <Btn title="Del" class="mx-2" data="{report.id|pack:id}" action="->fieldCtrl.delReport"/>
+      </div>
+    </div>
   </component>
 
   <component id="DbLoadingIndicator">
