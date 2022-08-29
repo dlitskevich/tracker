@@ -56,10 +56,12 @@
         <b class="text-gray">{user}</b>
         <span class="ml-2 text-gray">{ts|date}</span>
       </div>
-      <div class="tile bt-1 p-2">
+      <div class="tile bt-1 p-2" style="border-left: 4px solid {:enums.status|find:@status|dot:color|or:gray};">
         <div class="tile-icon">
           <ui:tag tag="{myRole|equals:reviewer|then:b:a}" href="#/task?itemId={id}">
-            <figure class="avatar avatar-l text-large" style="background-color: {:enums.status|find:@status|dot:style|or:gray}!important" data-initial="{:enums.type|find:@type|dot:code|or:*}" />
+            <figure class="avatar avatar-l text-large" style="background-color: {:enums.status|find:@status|dot:color|or:gray}!important">
+              <img src="assets/{user}.png" alt="{user}"/>
+            </figure>
           </ui:tag>
         </div>
         <div class="tile-content">
@@ -67,7 +69,7 @@
             <h6 class="tile-title text-bold text-dark" title="{subject}">{subject|or:@name}</h6>
           </ui:tag>
           <div>
-            <span class="tile-subtitle" ui:if="{subtitle}">{notes}</span>
+            <span class="label p-1" style="color: {:enums.status|find:@status|dot:color|or:gray}!important" ui:if="{status}">{status}</span>
             <span class="ml-1" ui:if="{tags}">({tags})</span>
           </div>
         </div>

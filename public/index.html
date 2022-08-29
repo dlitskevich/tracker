@@ -13,64 +13,24 @@
     <link rel="preconnect" href="https://script.google.com" />
   </head>
   <body></body>
-  <script src="index.js"></script>
+  <script src="index.js" type="module"></script>
   <script src="vendor/arrmatura.js"></script>
-  <script>
+  <script type="module">
     var lib = arrmatura.lib;
     var params = lib.urlParse(window.location.search).params;
     var key =
       "AKfycbwoWyFt17GjKCPHXX5a27dwq7pXyQQxKllQ5Gf8BtJgLd-g-rAr7V4DlrDS3bpcq4XCcw";
     var apiBaseUrl = "https://script.google.com/macros/s/" + key + "/exec";
     var metaUrl = apiBaseUrl + "?action=meta";
+    const resources = {
+      apiBaseUrl,
+      params,
+    };
 
-    class TimeReportFieldController {
-      init() {
-        return {
-          actualData: !this.data?.length ? [] : JSON.parse(this.data),
-        };
-      }
-      setActualData(data) {
-        this.actualData = data;
-        this.onChange?.({ value: !data.length ? "" : JSON.stringify(data) });
-      }
-      onNote({ value: note, id }, { actualData, newReport }) {
-        if (!id) {
-          return { newReport: { ...newReport, note } };
-        }
-        return {
-          actualData: actualData.map((e) => (e.id == id ? { ...e, note } : e)),
-        };
-      }
-      onHours({ value: hours, id }, { actualData, newReport }) {
-        if (!id) {
-          return { newReport: { ...newReport, hours } };
-        }
-        return {
-          actualData: actualData.map((e) => (e.id == id ? { ...e, hours } : e)),
-        };
-      }
-      onAddReport({ note = "", hours = "1" }, { actualData, newReport }) {
-        return {
-          actualData: [{ ...newReport, id: Date.now() }, ...actualData],
-        };
-      }
-      onDelReport({ id }, { actualData }) {
-        return {
-          actualData: actualData.filter((e) => e.id != id),
-        };
-      }
-    }
+    window.fetchText("index.xml", (text) => {
+      const types = [text, window.TimeReportFieldController];
 
-    fetch("index.xml")
-      .then((res) => res.text())
-      .then((text) => {
-        arrmatura(`<App metaUrl="${metaUrl}"/>`, {
-          types: [text, TimeReportFieldController],
-          resources: {
-            apiBaseUrl,
-            params,
-          },
-        });
-      });
+      arrmatura(`<App metaUrl="${metaUrl}"/>`, { types, resources });
+    });
   </script>
 </html>
