@@ -301,12 +301,12 @@ li span input:checked ~ span {
 
 @media (max-width: 960px) {
   .off-canvas .off-canvas-sidebar {
-    /* padding: .4rem .4rem .4rem .4rem!important; */
+    padding: .4rem .4rem .4rem .4rem!important;
   }
   .map-container {
     left: 0;
   }
   .navbar {
-    /* padding-left: 2rem; */
+    padding-left: 2rem;
   }
 }

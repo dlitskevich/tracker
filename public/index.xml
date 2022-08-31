@@ -12,7 +12,12 @@
           <UserService ui:ref="user" persistence="local" submit="->api.post" />
           <GSheetsService ui:ref="db" kind="tasks" persistence="local" submit="->api.post"/>
           <ItemCollectionController ui:ref="items" data="<- db.items" initials=":app.initialTags" />
-          <PageRouter ui:props="<- nav.route" />
+          <Sidebar caption=":app.name" sidebarWidth="300">
+            <Sidebar:aside>
+              <NavTree data=":enums.sitemap" />
+            </Sidebar:aside>
+            <PageRouter ui:props="<- nav.route" />
+          </Sidebar>
           <UserProfileModal data="<-user.info" ui:if="<-user.showProfile" />
         </ui:else>
       </SignInPage>
@@ -21,14 +26,55 @@
   </component>
 
   <component id="MainPage">
+    <Navbar caption="Main">
+      <Navbar:right>
+        <DbLoadingIndicator isLoading="<-db.isLoading" action="->db.reload"/>
+        <UserBar info="<- user.info" />
+      </Navbar:right>
+    </Navbar>
+      <div class="hero bg-dark p-0" style="position: relative;width:100%;height:400px;">
+    <div id="animation" init="{_|applyWebGlBg}" style="position:absolute;left:0;width:100%;height:400px;"></div>
+    <div class="hero-body px-2" style="position:absolute;left:0;width:100%;height:400px;">
+      <h1>Title here</h1>
+    </div>
+  </div>
+
+      <div bottom class="bg-white p-2" style="display:grid; grid-template-columns:1fr 1fr;column-gap: 10px; row-gap: 10px;">
+      <div><Panel caption="Welcome">123</Panel></div>
+      <div><Panel caption="Welcome">123</Panel></div>
+      <div><Panel caption="Welcome">123</Panel></div>
+      <div><Panel caption="Welcome">123</Panel></div>
+
+      </div>
+
+  </component>
+
+  <component id="TaskListPage">
     <TasksList ui:props="<- items.info" />
     <NewItemFacility/>
+  </component>
+
+  <component id="StandupPage">
+    <TasksList ui:props="<- items.info" />
+    <NewItemFacility/>
+  </component>
+
+  <component id="HealthStatusPage">
+    <TasksList ui:props="<- items.info" />
+  </component>
+
+  <component id="InboxPage">
+    <TasksList ui:props="<- items.info" />
+  </component>
+
+  <component id="ReferencesPage">
+    <TasksList ui:props="<- items.info" />
   </component>
 
   <component id="TasksList">
     <main scrolledDown="-> items.showMore" scroll="->scrolledDown|dot:value|greater:50">
       <a name="top"></a>
-      <Navbar caption=":app.name" badge="{counts|showCounts}">
+      <Navbar caption="Tasks" badge="{counts|showCounts}">
         <Navbar:right>
           <DbLoadingIndicator isLoading="<-db.isLoading" action="->db.reload"/>
           <SearchBarWithSuggestions ui:props="{search}" />
@@ -74,7 +120,7 @@
           </div>
         </div>
       </div>
-      <div class="divider"></div>
+      <!-- <div class="divider"></div> -->
     </div>
   </component>
 
@@ -150,16 +196,22 @@
 
   <component id="TimeReportField">
     <TimeReportFieldController ui:ref="fieldCtrl" onChange="{onChange}" data="{value}"/>
-    <div bottom class="bg-secondary p-2" style="display:grid; grid-template-columns: 60px 1fr 40px;column-gap: 10px; row-gap: 10px;">
+    <div bottom class="bg-white p-2" style="display:grid; grid-template-columns: 60px 90px 120px 1fr 40px;column-gap: 10px; row-gap: 10px;">
       <b>Hour</b>
+      <b>Status</b>
+      <b>Date</b>
       <b>Note</b>
       <Btn title="+" primary class="" action="->fieldCtrl.addReport"/>
 
-      <ui:fragment ui:for="report of <-fieldCtrl.actualData">
-        <select value="{report.hours}" change="->fieldCtrl.hours|assignKeyValue:id:@report.id">
+      <ui:fragment ui:for="report of <-fieldCtrl.visualData">
+        <select value="{report.hours}" change="->fieldCtrl.updateField|assignKeyValue:key:hours|assignKeyValue:id:@report.id">
           <option ui:for="option of :enums.hours" selected="{option.id|equals:@report.hours}" value="{option.id}">{option.name}</option>
         </select>
-        <input value="{report.note}" change="->fieldCtrl.note|assignKeyValue:id:@report.id"/>
+        <select value="{report.status}" change="->fieldCtrl.updateField|assignKeyValue:key:status|assignKeyValue:id:@report.id">
+          <option ui:for="option of :enums.hoursStatus" selected="{option.id|equals:@report.status}" value="{option.id}">{option.name}</option>
+        </select>
+        <input value="{report.date}" type="date" change="->fieldCtrl.updateField|assignKeyValue:key:date|assignKeyValue:id:@report.id"/>
+        <input value="{report.note}" change="->fieldCtrl.updateField|assignKeyValue:key:note|assignKeyValue:id:@report.id"/>
         <Btn title="x" class="" data="{report.id|pack:id}" action="->fieldCtrl.delReport"/>
       </ui:fragment>
     </div>

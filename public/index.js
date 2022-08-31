@@ -1,41 +1,36 @@
-window.fetchText = (url, fn)=>fetch(url)
-      .then((res) => res.text())
-      .then(fn);
-      
+window.fetchText = (url, fn) => fetch(url)
+  .then((res) => res.text())
+  .then(fn);
+
+const { dateFormat } = window.arrmatura.lib;
+
 window.TimeReportFieldController = class TimeReportFieldController {
   init() {
     return {
       actualData: !this.data?.length ? [] : JSON.parse(this.data),
     };
   }
+  updateItemField(id, key, value) {
+    return {
+      actualData: this.actualData.map((e) => (e.id == id ? { ...e, [key]: value } : e))
+    }
+  }
+  get visualData(){
+    return this.actualData?.filter((e) => e.status !== 'deleted') ||[];
+  }
   setActualData(data) {
     this.actualData = data;
     this.onChange?.({ value: !data.length ? "" : JSON.stringify(data) });
   }
-  onNote({ value: note, id }, { actualData, newReport }) {
-    if (!id) {
-      return { newReport: { ...newReport, note } };
-    }
+  onUpdateField({ id, key, value }) {
+    return this.updateItemField(id, key, value);
+  }
+  onAddReport(defaults, { actualData }) {
     return {
-      actualData: actualData.map((e) => (e.id == id ? { ...e, note } : e)),
+      actualData: [{ status: 'planned', hours: 1, date: dateFormat(Date.now()), ...defaults, id: Date.now() }, ...actualData],
     };
   }
-  onHours({ value: hours, id }, { actualData, newReport }) {
-    if (!id) {
-      return { newReport: { ...newReport, hours } };
-    }
-    return {
-      actualData: actualData.map((e) => (e.id == id ? { ...e, hours } : e)),
-    };
-  }
-  onAddReport({ note = "", hours = "1" }, { actualData, newReport }) {
-    return {
-      actualData: [{ ...newReport, id: Date.now() }, ...actualData],
-    };
-  }
-  onDelReport({ id }, { actualData }) {
-    return {
-      actualData: actualData.filter((e) => e.id != id),
-    };
+  onDelReport({ id }) {
+    return this.updateItemField(id, 'status', 'deleted');
   }
 }
