@@ -1,0 +1,57 @@
+
+  <component id="StandupPage">
+    <GSheetsService ui:ref="db" kind="timeReport" persistence="local" submit="->api.post"/>
+    <ItemCollectionController ui:ref="items" data="<- db.items" initials="today,yesterday" />
+    <StandupList ui:props="<- items.info" />
+  </component>
+
+  <component id="StandupList">
+    <main scrolledDown="-> items.showMore" scroll="->scrolledDown|dot:value|greater:50">
+      <a name="top"></a>
+      <Navbar caption="Standup" badge="{counts|showCounts}">
+        <Navbar:right>
+          <DbLoadingIndicator isLoading="<-db.isLoading" action="->db.reload"/>
+          <SearchBarWithSuggestions ui:props="{search}" />
+        </Navbar:right>
+      </Navbar>
+
+      <AsyncLoader isLoading="{data|not}" title="Loading data" subtitle="🚀 initial dataset" error="<- db.error" onError="-> db.reload">
+        <Chips data="{tags}" click="-> items.tag"/>
+        <EmptyData title="Empty inbox" ui:if="data.length|not">
+          <ui:else>
+            <div class="columns  mx-0">
+              <StandupListItem ui:props="{item}" itemClick="{openEntry}" ui:for="item of data" />
+            </div>
+          </ui:else>
+        </EmptyData>
+      </AsyncLoader>
+    </main>
+    <a class="centroid s-circle scroll-to-top-button" href="#top" ui:if="{scrolledDown}">⬆</a>
+  </component>
+
+  <component id="StandupListItem">
+    <div class="column col-12 col-sm-12 my-1 mx-0 {read|includes:@user|not|then:bg-secondary}">
+      <div class="float-right p-2" style="max-height: 1rem;">
+        <span class="ml-2 text-gray">{date|date}</span>
+      </div>
+      <div class="tile bt-1 p-2" style="border-left: 4px solid {:enums.status|find:@status|dot:color|or:gray};">
+        <div class="tile-icon">
+          <ui:tag tag="{myRole|equals:reviewer|then:b:a}" href="#/task?itemId={id}">
+            <figure class="avatar avatar-l text-large" style="background-color: {:enums.status|find:@status|dot:color|or:gray}!important">
+              <img src="assets/{user}.png" title="{user}"/>
+            </figure>
+          </ui:tag>
+        </div>
+        <div class="tile-content">
+          <ui:tag tag="{myRole|equals:reviewer|then:b:a}" href="#/message?itemId={id}">
+            <h6 class="tile-title text-bold text-dark" title="{subject}">{note|or:@date} </h6>
+          </ui:tag>
+          <div>
+            <span class="label p-1" style="color: {:enums.status|find:@status|dot:color|or:gray}!important" ui:if="{hours}">{status} in {hours}h</span>
+            <span class="ml-1" ui:if="{tags}">({tags})</span>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="divider"></div> -->
+    </div>
+  </component>

@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="index.css?v=2" />
     <link rel="preconnect" href="https://script.googleusercontent.com" />
     <link rel="preconnect" href="https://script.google.com" />
-    <script src="//cdnjs.cloudflare.com/ajax/libs/three.js/r71/three.min.js"></script>
+    <script src="vendor/three.min.js"></script>
     <script src="js/applyWebGlBg.js"></script>
   </head>
   <body></body>
@@ -37,8 +37,11 @@
       }
     }
 
-    window.fetchText("index.xml", (text) => {
-      const types = [text, window.TimeReportFieldController];
+    const xmls = ['inbox','index','references','tasks','standup','user'].map(x=>`xml/${x}.xml`);
+
+    window.fetchTexts(xmls, (texts) => {
+      // console.log(texts);
+      const types = [...texts, window.TimeReportFieldController];
 
       arrmatura(`<App metaUrl="${metaUrl}"/>`, { types, resources, functions });
     });

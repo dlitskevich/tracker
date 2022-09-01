@@ -1,6 +1,6 @@
-window.fetchText = (url, fn) => fetch(url)
+window.fetchTexts = (urls, fn) => Promise.all(urls.map(url => fetch(url)
   .then((res) => res.text())
-  .then(fn);
+  )).then((texts) => fn(texts));
 
 const { dateFormat } = window.arrmatura.lib;
 
@@ -15,8 +15,8 @@ window.TimeReportFieldController = class TimeReportFieldController {
       actualData: this.actualData.map((e) => (e.id == id ? { ...e, [key]: value } : e))
     }
   }
-  get visualData(){
-    return this.actualData?.filter((e) => e.status !== 'deleted') ||[];
+  get visualData() {
+    return this.actualData?.filter((e) => e.status !== 'deleted') || [];
   }
   setActualData(data) {
     this.actualData = data;

@@ -1,0 +1,49 @@
+<components>
+  <component id="SignInPage">
+    <main class="d-flex" style="height:350px;max-height:500;margin:auto;flex-direction:column;">
+      <ui:fragment ui:if="signup">
+        <ui:then>
+          <Navbar caption="Sign Up"/>
+          <Forma meta=":signup_form" change="-> data" />
+          <div class="flex-1"></div>
+          <div bottom class="bg-secondary p-2 d-flex" style="justify-content: flex-end;">
+            <a class="flex-1" click="-> signup=false">Sign In</a>
+            <Btn icon="upload" title="Sign up" mode="primary" large data="{data}" action="-> auth.signUp" busy="<- auth.busy"/>
+          </div>
+        </ui:then>
+        <ui:else>
+          <Navbar caption="Sign In"/>
+          <Forma meta=":sign_in_form" change="-> data" />
+          <div class="flex-1"></div>
+          <div bottom class="bg-secondary p-2 d-flex" style="justify-content: flex-end;">
+            <a class="flex-1" click="-> signup=true">Sign Up</a>
+            <Btn icon="upload" title="Sign in" mode="primary" large data="{data}" action="-> auth.signIn" busy="<- auth.busy"/>
+          </div>
+        </ui:else>
+      </ui:fragment>
+    </main>
+  </component>
+
+  <component id="UserProfileModal">
+    <Modal title="User profile" mode="lg" open="true" close="-> user.showProfile|not">
+      <Forma meta=":forms.profile" data="{data}" change="-> data" />
+      <Modal:footer>
+        <Btn icon="people" title="Save profile" mode="primary" large data="{data}" action="-> user.save" busy="<- user.isLoading"/>
+      </Modal:footer>
+    </Modal>
+  </component>
+
+  <component id="UserTile">
+    <Tile title="{name}" subtitle="{role}" image="{image}" class="bg-secondary p-2">
+      <div class="row" style="display: flex; justify-content: flex-end;">
+        <a class="btn btn-link p-2" click="-> user.showProfile|truthy">
+          <Icon type="people"/>
+        </a>
+        <a class=" ml-2 btn btn-link p-2" click="-> auth.signOut">
+          <Icon type="shutdown"/>
+        </a>
+      </div>
+    </Tile>
+  </component>
+</components>
+

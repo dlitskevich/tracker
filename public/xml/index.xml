@@ -1,0 +1,75 @@
+<components>
+
+  <component id="App">
+    <ToastService ui:ref="toasters" />
+    <MetadataService ui:ref="meta" url="{metaUrl}" lang="{lang}" />
+    <AsyncLoader isLoading="<-meta.ready|not" title="🚀 Launching app" subtitle="check for the actual version" error="<-meta.error" onError="-> nav.reload">
+      <AuthService ui:ref="auth" authUrl="{:apiBaseUrl}" persistence="local" initialToken=":params.token" afterSignedOut="->nav.reload"/>
+      <SignInPage ui:if="<-auth.isSignedIn|not">
+        <ui:else>
+          <NavigationService ui:ref="nav" title=":app.name" />
+          <ApiClientService ui:ref="api" baseUrl="{:apiBaseUrl}" token="<-auth.token" onTokenExpired="-> auth.invalidateToken"/>
+          <UserService ui:ref="user" persistence="local" submit="->api.post" />
+          <GSheetsService ui:ref="db" kind="tasks" persistence="local" submit="->api.post"/>
+          <ItemCollectionController ui:ref="items" data="<- db.items" initials=":app.initialTags" />
+          <Sidebar caption="{:app.name} - {:app.version}" sidebarWidth="300">
+            <Sidebar:aside>
+              <UserTile ui:props="<- user.info"/>
+              <NavTree data=":enums.sitemap" class="mx-2"/>
+            </Sidebar:aside>
+            <PageRouter ui:props="<- nav.route" />
+          </Sidebar>
+          <UserProfileModal data="<-user.info" ui:if="<-user.showProfile" />
+        </ui:else>
+      </SignInPage>
+    </AsyncLoader>
+    <ToastList />
+  </component>
+
+  <component id="MainPage">
+    <Navbar caption="Main">
+      <Navbar:right>
+        <DbLoadingIndicator isLoading="<-db.isLoading" action="->db.reload"/>
+      </Navbar:right>
+    </Navbar>
+    <div class="hero bg-dark p-0" style="position: relative;width:100%;height:400px;">
+      <div id="animation" init="{_|applyWebGlBg}" style="position:absolute;left:0;width:100%;height:400px;"></div>
+      <div class="hero-body px-2" style="position:absolute;left:0;width:100%;height:400px;">
+        <h1>Title here</h1>
+      </div>
+    </div>
+<main>
+    <div class="columns mx-0">
+      <div class="column col-6 col-sm-12 my-1 mx-0">
+        <Panel caption="Health Status"><HealthStatus/></Panel>
+      </div>
+      <div class="column col-6 col-sm-12 my-1 mx-0">
+        <Panel caption="Inbox"> <h1 style="color:red;">12 unread</h1></Panel>
+      </div>
+      <div class="column col-6 col-sm-12 my-1 mx-0">
+        <Panel caption="Tasks"><h1 style="color:orange;">7 open</h1></Panel>
+      </div>
+      <div class="column col-6 col-sm-12 my-1 mx-0">
+        <Panel caption="Stand-up"><h1 style="color:green;">Ready</h1></Panel>
+      </div>
+    </div>
+</main>
+  </component>
+
+  <component id="HealthStatus">
+  <h1 style="color:green;">97%</h1>
+  </component>
+
+  <component id="DbLoadingIndicator">
+    <Invoke data="{data}" trigger="{data.id}" action="{action}" ui:if="hot"/>
+    <ui:fragment ui:if="isLoading">
+      <LoadingIndicator class="m-2" />
+      <ui:else>
+        <a click="{action}" data="{data}" class="m-2">
+          <Icon type="refresh"/>
+        </a>
+      </ui:else>
+    </ui:fragment>
+  </component>
+
+</components>

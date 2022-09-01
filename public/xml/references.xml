@@ -1,0 +1,28 @@
+
+  <component id="ReferencesPage">
+    <Navbar caption="References">
+      <Navbar:right>
+      </Navbar:right>
+    </Navbar>
+    <main>
+      <RefTree data=":enums.references" />
+    </main>
+  </component>
+
+  <component id="RefTree">
+    <ul class="nav {class}">
+      <li class="nav-item {itemClass} {item.class}" ui:for="item of data">
+        <RefLink ui:props="{item}" level="{level|or:4}"/>
+      </li>
+    </ul>
+  </component>
+
+  <component id="RefLink">
+    <a href="{href}" target="_blank" class="c-hand {class}">
+      <ui:tag tag="h{level}" style="display:inline-block;">{name}</ui:tag>
+      <span class="label label-warn" ui:if="{label}">{label}</span>
+    </a>
+    <RefTree ui:if="{subs}" data=":enums.references_{subs}"  level="{level|plus:1}"/>
+  </component>
+
+ 
