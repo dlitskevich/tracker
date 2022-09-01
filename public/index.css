@@ -279,6 +279,7 @@ li span input:checked ~ span {
 }
 .off-canvas .off-canvas-content {
   padding: 0rem !important;
+  overflow-y: auto;
 }
 .scroll-to-top-button {
   position: fixed;
