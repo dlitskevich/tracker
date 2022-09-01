@@ -14,8 +14,15 @@
           <ItemCollectionController ui:ref="items" data="<- db.items" initials=":app.initialTags" />
           <Sidebar caption="{:app.name} - {:app.version}" sidebarWidth="300">
             <Sidebar:aside>
-              <UserTile ui:props="<- user.info"/>
-              <NavTree data=":enums.sitemap" class="mx-2"/>
+                <UserTile ui:props="<- user.info"/>
+                <NavTree data=":enums.sitemap" class="mx-2"/>
+                <div class="flex-1 centroid">
+                  <img src="assets/telomer.png" width="200px" height="200px" style="border-radius:100px;opacity:0.5" />
+                </div>
+                <div class="p-2 bg-secondary">
+                  <Icon type="gears"/>
+                  <span>Settings</span>
+                </div>
             </Sidebar:aside>
             <PageRouter ui:props="<- nav.route" />
           </Sidebar>
