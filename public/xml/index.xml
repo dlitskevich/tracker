@@ -32,32 +32,33 @@
         <DbLoadingIndicator isLoading="<-db.isLoading" action="->db.reload"/>
       </Navbar:right>
     </Navbar>
-    <div class="hero bg-dark p-0" style="position: relative;width:100%;height:400px;">
+    <!-- <div class="hero bg-dark p-0" style="position: relative;width:100%;height:400px;">
       <div id="animation" init="{_|applyWebGlBg}" style="position:absolute;left:0;width:100%;height:400px;"></div>
       <div class="hero-body px-2" style="position:absolute;left:0;width:100%;height:400px;">
         <h1>Title here</h1>
       </div>
-    </div>
-<main>
-    <div class="columns mx-0">
-      <div class="column col-6 col-sm-12 my-1 mx-0">
-        <Panel caption="Health Status"><HealthStatus/></Panel>
+    </div> -->
+    <main>
+      <div class="columns mx-0">
+        <BigPanel caption="Health Status" color="green" number="97%" subtext="shiny green" image="s3.png" />
+        <BigPanel caption="Inbox" color="red" number="12" subtext="unread" image="s2.png"/>
+        <BigPanel caption="Tasks" color="orange" number="7" subtext="open" image="s1.png"/>
+        <BigPanel caption="Stand-up" color="green" number="23" subtext="Ready" image="s4.png"/>
       </div>
-      <div class="column col-6 col-sm-12 my-1 mx-0">
-        <Panel caption="Inbox"> <h1 style="color:red;">12 unread</h1></Panel>
-      </div>
-      <div class="column col-6 col-sm-12 my-1 mx-0">
-        <Panel caption="Tasks"><h1 style="color:orange;">7 open</h1></Panel>
-      </div>
-      <div class="column col-6 col-sm-12 my-1 mx-0">
-        <Panel caption="Stand-up"><h1 style="color:green;">Ready</h1></Panel>
-      </div>
-    </div>
-</main>
+    </main>
   </component>
 
-  <component id="HealthStatus">
-  <h1 style="color:green;">97%</h1>
+  <component id="BigPanel">
+    <div class="column col-6 col-sm-12 my-1 mx-0">
+      <Panel caption="{caption}">
+        <div class="d-flex" style="flex-direction:column; align-items:center;">
+          <h1 style="color:{color};">{number}</h1>
+          <h3 style="color:{color};">{subtext}</h3>
+          <img src="samples/{image}" width="100%" height="200px" />
+        </div>
+      </Panel>
+    </div>
+
   </component>
 
   <component id="DbLoadingIndicator">
