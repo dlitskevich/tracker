@@ -20,7 +20,6 @@
                   <img src="assets/telomer.png" width="200px" height="200px" style="border-radius:100px;opacity:0.5" />
                 </div>
                 <div class="p-2 bg-secondary">
-                  <Icon type="gears"/>
                   <span>Settings</span>
                 </div>
             </Sidebar:aside>
