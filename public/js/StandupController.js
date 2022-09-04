@@ -17,7 +17,7 @@ window.StandupController = class StandupController {
       return {
         ...e,
         reports: {
-          performed: prepareReport(reports.performed?.items),
+          performed: prepareReport(reports.done?.items),
 
           planned: prepareReport(reports.planned?.items),
 

@@ -25,7 +25,7 @@
   </component>
 
   <component id="UserProfileModal">
-    <Modal title="User profile" mode="lg" open="true" close="-> user.showProfile|not">
+    <Modal title="User profile" open="true" close="-> user.showProfile|not">
       <Forma meta=":forms.profile" data="{data}" change="-> data" />
       <Modal:footer>
         <Btn icon="people" title="Save profile" mode="primary" large data="{data}" action="-> user.save" busy="<- user.isLoading"/>

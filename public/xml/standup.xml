@@ -1,6 +1,6 @@
 <component id="StandupPage">
-  <GSheetsService ui:ref="db" kind="timeReport" persistence="local" submit="->api.post"/>
-  <StandupController ui:ref="standup" data="<- db.items" users=":enums.assignee" />
+  <GSheetsService ui:ref="dbReport" kind="timeReport" persistence="local" submit="-> api.post"/>
+  <StandupController ui:ref="standup" data="<- dbReport.items" users=":enums.assignee" />
   <StandupList data="<- standup.usersInfo" />
 </component>
 
@@ -8,19 +8,19 @@
   <main>
     <Navbar caption="Standup">
       <Navbar:right>
-        <DbLoadingIndicator isLoading="<-db.isLoading" action="->db.reload"/>
+        <DbLoadingIndicator isLoading="<- dbReport.isLoading" action="-> dbReport.reload"/>
       </Navbar:right>
     </Navbar>
     <StandupListItem ui:props="{item}" itemClick="{openEntry}" ui:for="item of data" />
   </main>
 </component>
 
-<component id="ReportingCell">
+<component id="StandupListItemCell">
   <div class="p-2"  style="border-left: 4px solid  {color}!important">
     <h5>{caption} ({totalHours}h)</h5>
     <ul>
       <li ui:for="item of data">
-        <a href="#/task?itemId={task}">{item.hours}h - {item.note}</a>
+        <a href="#/task?itemId={task}">{item.hours}h - {item.note} - {item.taskName}</a>
       </li>
     </ul>
   </div>
@@ -38,9 +38,9 @@
       </div>
       <div class="tile-content">
         <div style="display:grid; grid-template-columns: 1fr 1fr 1fr;column-gap: 10px; row-gap: 10px;">
-          <ReportingCell caption="performed" ui:props="{reports.performed}"/>
-          <ReportingCell caption="planned" ui:props="{reports.planned}"/>
-          <ReportingCell caption="blokers" ui:props="{reports.bloked}"/>
+          <StandupListItemCell caption="performed" ui:props="{reports.performed}"/>
+          <StandupListItemCell caption="planned" ui:props="{reports.planned}"/>
+          <StandupListItemCell caption="blockers" ui:props="{reports.blocked}"/>
         </div>
       </div>
     </div>
