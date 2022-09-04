@@ -4,24 +4,24 @@
     <ToastService ui:ref="toasters" />
     <MetadataService ui:ref="meta" url="{metaUrl}" lang="{lang}" />
     <AsyncLoader isLoading="<-meta.ready|not" title="🚀 Launching app" subtitle="check for the actual version" error="<-meta.error" onError="-> nav.reload">
-      <AuthService ui:ref="auth" authUrl="{:apiBaseUrl}" persistence="local" initialToken=":params.token" afterSignedOut="->nav.reload"/>
+      <AuthService ui:ref="auth" authUrl="{:apiBaseUrl}" persistence="local" initialToken=":params.token" afterSignedOut="->nav.reload" />
       <SignInPage ui:if="<-auth.isSignedIn|not">
         <ui:else>
           <NavigationService ui:ref="nav" title=":app.name" />
-          <ApiClientService ui:ref="api" baseUrl="{:apiBaseUrl}" token="<-auth.token" onTokenExpired="-> auth.invalidateToken"/>
+          <ApiClientService ui:ref="api" baseUrl="{:apiBaseUrl}" token="<-auth.token" onTokenExpired="-> auth.invalidateToken" />
           <UserService ui:ref="user" persistence="local" submit="->api.post" />
-          <GSheetsService ui:ref="db" kind="tasks" persistence="local" submit="->api.post"/>
+          <GSheetsService ui:ref="db" kind="tasks" persistence="local" submit="->api.post" />
           <ItemCollectionController ui:ref="items" data="<- db.items" initials=":app.initialTags" />
           <Sidebar caption="{:app.name} - {:app.version}" sidebarWidth="300">
             <Sidebar:aside>
-                <UserTile ui:props="<- user.info"/>
-                <NavTree data=":enums.sitemap" class="mx-2"/>
-                <div class="flex-1 centroid">
-                  <img src="assets/telomer.png" width="200px" height="200px" style="border-radius:100px;opacity:0.5" />
-                </div>
-                <div class="p-2 bg-secondary">
-                  <span>Settings</span>
-                </div>
+              <UserTile ui:props="<- user.info" />
+              <NavTree data=":enums.sitemap" class="mx-2" />
+              <div class="flex-1 centroid" style="min-height:200px">
+                <img src="assets/logo.svg" alt="logo" width="200px" height="200px" style="opacity:0.5;background:white" />
+              </div>
+              <div class="p-2 bg-secondary">
+                <span>Settings</span>
+              </div>
             </Sidebar:aside>
             <PageRouter ui:props="<- nav.route" />
           </Sidebar>
@@ -35,7 +35,7 @@
   <component id="MainPage">
     <Navbar caption="Main">
       <Navbar:right>
-        <DbLoadingIndicator isLoading="<-db.isLoading" action="->db.reload"/>
+        <DbLoadingIndicator isLoading="<-db.isLoading" action="->db.reload" />
       </Navbar:right>
     </Navbar>
     <!-- <div class="hero bg-dark p-0" style="position: relative;width:100%;height:400px;">
@@ -47,9 +47,9 @@
     <main>
       <div class="columns mx-0">
         <BigPanel caption="Health Status" color="green" number="97%" subtext="shiny green" image="s3.png" />
-        <BigPanel caption="Inbox" color="red" number="12" subtext="unread" image="s2.png"/>
-        <BigPanel caption="Tasks" color="orange" number="7" subtext="open" image="s1.png"/>
-        <BigPanel caption="Stand-up" color="green" number="23" subtext="Ready" image="s4.png"/>
+        <BigPanel caption="Inbox" color="red" number="12" subtext="unread" image="s2.png" />
+        <BigPanel caption="Tasks" color="orange" number="7" subtext="open" image="s1.png" />
+        <BigPanel caption="Stand-up" color="green" number="23" subtext="Ready" image="s4.png" />
       </div>
     </main>
   </component>
@@ -68,12 +68,12 @@
   </component>
 
   <component id="DbLoadingIndicator">
-    <Invoke data="{data}" trigger="{data.id}" action="{action}" ui:if="hot"/>
+    <Invoke data="{data}" trigger="{data.id}" action="{action}" ui:if="hot" />
     <ui:fragment ui:if="isLoading">
       <LoadingIndicator class="m-2" />
       <ui:else>
         <a click="{action}" data="{data}" class="m-2">
-          <Icon type="refresh"/>
+          <Icon type="refresh" />
         </a>
       </ui:else>
     </ui:fragment>
