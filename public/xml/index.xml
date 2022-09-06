@@ -47,9 +47,9 @@
     <main>
       <div class="columns mx-0">
         <BigPanel caption="Health Status" color="green" number="97%" subtext="shiny green" image="s3.png" />
-        <BigPanel caption="Inbox" color="red" number="12" subtext="unread" image="s2.png"/>
-        <BigPanel caption="Tasks" color="orange" number="7" subtext="open" image="s1.png"/>
-        <BigPanel caption="Stand-up" color="green" number="23" subtext="Ready" image="s4.png"/>
+        <BigPanel caption="Inbox" color="red" number="12" subtext="unread" image="s2.png" />
+        <BigPanel caption="Tasks" color="orange" number="7" subtext="open" image="s1.png" />
+        <BigPanel caption="Stand-up" color="green" number="23" subtext="Ready" image="s4.png" />
       </div>
     </main>
   </component>
@@ -68,12 +68,12 @@
   </component>
 
   <component id="DbLoadingIndicator">
-    <Invoke data="{data}" trigger="{data.id}" action="{action}" ui:if="hot"/>
+    <Invoke data="{data}" trigger="{data.id}" action="{action}" ui:if="hot" />
     <ui:fragment ui:if="isLoading">
       <LoadingIndicator class="m-2" />
       <ui:else>
         <a click="{action}" data="{data}" class="m-2">
-          <Icon type="refresh"/>
+          <Icon type="refresh" />
         </a>
       </ui:else>
     </ui:fragment>
