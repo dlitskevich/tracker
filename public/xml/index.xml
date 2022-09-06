@@ -22,7 +22,7 @@
                 <div class="p-2 bg-secondary">
                   <span>Settings</span>
                 </div>
-            </Sidebar:aside>
+            </Sidebar:aside> 
             <PageRouter ui:props="<- nav.route" />
           </Sidebar>
           <UserProfileModal data="<-user.info" ui:if="<-user.showProfile" />
