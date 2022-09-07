@@ -1,7 +1,6 @@
 <component id="StandupPage">
   <GSheetsService ui:ref="dbReport" kind="timeReport" persistence="local" submit="-> api.post"/>
-  <StandupController ui:ref="standup" data="<- dbReport.items" users=":enums.assignee" />
-  <StandupList data="<- standup.usersInfo" />
+  <StandupList data="<- dbReport.items|standupAdapter:@R.enums.assignee" />
 </component>
 
 <component id="StandupList">

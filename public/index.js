@@ -1,6 +1,12 @@
-window.fetchTexts = (urls, fn) => Promise.all(urls.map(url => fetch(url)
+const fetchTexts = (urls, fn) => Promise.all(urls.map(url => fetch(url)
   .then((res) => res.text())
 )).then((texts) => fn(texts));
+
+const appendScripts = urls => urls.forEach(x =>
+  document.getElementsByTagName('head')[0].appendChild(
+    Object.assign(document.createElement('script'), { type:'module', src: `js/${x}.js` })
+  )
+)
 
 const { lib: { dateFormat, urlParse } } = arrmatura;
 
@@ -19,19 +25,22 @@ const resources = {
   params,
 };
 
+// appendScripts(['applyWebGlBg', 'TimeReportFieldController', 'standupAdapter']);
+
 const functions = {
-  applyWebGlBg() {
+  applyWebGlBg(domElement) {
     setTimeout(() => {
-      applyWebGlBg(this.domElement)
+      applyWebGlBg(domElement)
     }, 20);
-  }
+  },
+  standupAdapter: (d,u) => window.standupAdapter(d, u),
 }
 
 const xmls = ['inbox', 'index', 'references', 'tasks', 'standup', 'user'].map(x => `xml/${x}.xml`);
 
-window.fetchTexts(xmls, (texts) => {
+fetchTexts(xmls, (texts) => {
   // console.log(texts);
-  const types = [...texts, window.TimeReportFieldController, window.StandupController];
+  const types = [...texts, window.TimeReportFieldController];
 
   arrmatura(`<App metaUrl="${metaUrl}"/>`, { types, resources, functions });
 });

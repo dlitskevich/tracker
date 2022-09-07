@@ -1,8 +1,8 @@
 
-window.StandupController = class StandupController {
-  get usersInfo() {
+window.standupAdapter = (data, users) => {
     const { arrayGroupBy, arrayToObject } = window.arrmatura.lib;
-    const hash = arrayGroupBy(this.data || [], 'user');
+    const hash = arrayGroupBy(data || [], 'user');
+
     const prepareReport = (data = []) => {
       const totalHours = data.reduce((r, e) => (r += +(e.hours || 0), r), 0);
       return {
@@ -12,7 +12,7 @@ window.StandupController = class StandupController {
       }
     }
 
-    return (this.users || []).map(e => {
+    return (users || []).map(e => {
       const reports = arrayGroupBy(hash[e.id]?.items, 'status')
       return {
         ...e,
@@ -27,4 +27,4 @@ window.StandupController = class StandupController {
     })
   }
 
-}
+
