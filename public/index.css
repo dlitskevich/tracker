@@ -284,11 +284,12 @@ li span input:checked ~ span {
 }
 .scroll-to-top-button {
   position: fixed;
+  z-index: 10;
   background-color: white;
   opacity: 0.75;
   border: none;
-  left: 1.5rem;
-  bottom: 1.5rem;
+  right: 1.5rem;
+  bottom: 4.5rem;
   width: 2.5rem;
   height: 2.5rem;
 }

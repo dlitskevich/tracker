@@ -20,6 +20,7 @@ const { apiKey = apiKeyDefault } = params;
 const apiBaseUrl = "https://script.google.com/macros/s/" + apiKey + "/exec";
 
 const metaUrl = apiBaseUrl + "?action=meta";
+
 const resources = {
   apiBaseUrl,
   params,
