@@ -34,7 +34,7 @@ const functions = {
       applyWebGlBg(domElement)
     }, 20);
   },
-  standupAdapter: (d,u) => window.standupAdapter(d, u),
+  ...window.adapters,
 }
 
 const xmls = ['inbox', 'index', 'references', 'tasks', 'standup', 'user'].map(x => `xml/${x}.xml`);
