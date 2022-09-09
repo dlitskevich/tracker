@@ -37,7 +37,7 @@ const functions = {
   ...window.adapters,
 }
 
-const xmls = ['inbox', 'index', 'references', 'tasks', 'standup', 'user'].map(x => `xml/${x}.xml`);
+const xmls = ['inbox', 'index', 'tasks', 'standup', 'user'].map(x => `xml/${x}.xml`);
 
 fetchTexts(xmls, (texts) => {
   // console.log(texts);

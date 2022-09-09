@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "serve": "npx http-server ./public",
+    "kb": "curl -L --location-trusted \"https://script.google.com/macros/s/AKfycbwoWyFt17GjKCPHXX5a27dwq7pXyQQxKllQ5Gf8BtJgLd-g-rAr7V4DlrDS3bpcq4XCcw/exec?action=items&kind=kb\" > public/kb/kb.json",
     "rebuild-arr": "cd ../arrmatura && npm run build && cp ./docs/index.js ../tracker/public/vendor/arrmatura.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

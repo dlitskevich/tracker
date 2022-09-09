@@ -1,0 +1,404 @@
+{
+  "data": [
+    {
+      "$row": 2,
+      "chapter": "Documentation",
+      "section": "",
+      "block": "",
+      "item": "",
+      "content": "Lorem ipsum dolor sit amet",
+      "type": "",
+      "tags": "",
+      "json": ""
+    },
+    {
+      "$row": 3,
+      "chapter": "",
+      "section": "UI/UX",
+      "block": "",
+      "item": "",
+      "content": "Lorem ipsum dolor sit amet",
+      "type": "",
+      "tags": "",
+      "json": ""
+    },
+    {
+      "$row": 4,
+      "chapter": "",
+      "section": "",
+      "block": "",
+      "item": "CSS",
+      "content": "Lorem ipsum dolor sit amet",
+      "type": "",
+      "tags": "",
+      "json": ""
+    },
+    {
+      "$row": 5,
+      "chapter": "",
+      "section": "",
+      "block": "a5",
+      "item": "",
+      "content": "Lorem ipsum dolor sit amet",
+      "type": "",
+      "tags": "",
+      "json": ""
+    },
+    {
+      "$row": 6,
+      "chapter": "",
+      "section": "",
+      "block": "",
+      "item": "Tags",
+      "content": "org, dev, spike, datamodel, webUi, design, tg, integration, users, setup, CR, audit",
+      "type": "",
+      "tags": "",
+      "json": ""
+    },
+    {
+      "$row": 7,
+      "chapter": "Glossary",
+      "section": "",
+      "block": "",
+      "item": "",
+      "content": "",
+      "type": "",
+      "tags": "",
+      "json": ""
+    },
+    {
+      "$row": 8,
+      "chapter": "",
+      "section": "",
+      "block": "Agile",
+      "item": "",
+      "content": "",
+      "type": "",
+      "tags": "",
+      "json": ""
+    },
+    {
+      "$row": 9,
+      "chapter": "",
+      "section": "",
+      "block": "",
+      "item": "Task",
+      "content": "an atomary piece of work, that is sheduled, assigned and provisioned.\nIt should be well determined, measurabe, reasonable, consistent with goals of the project.",
+      "type": "",
+      "tags": "",
+      "json": ""
+    },
+    {
+      "$row": 10,
+      "chapter": "",
+      "section": "",
+      "block": "",
+      "item": "Story point (SP) ",
+      "content": "a relative unit used to estimate efforts to perform the task in comparison with another tasks in backlog.",
+      "type": "",
+      "tags": "",
+      "json": ""
+    },
+    {
+      "$row": 11,
+      "chapter": "",
+      "section": "",
+      "block": "Others",
+      "item": "",
+      "content": "",
+      "type": "",
+      "tags": "",
+      "json": ""
+    },
+    {
+      "$row": 12,
+      "chapter": "",
+      "section": "",
+      "block": "",
+      "item": "Some",
+      "content": "other",
+      "type": "",
+      "tags": "",
+      "json": ""
+    },
+    {
+      "$row": 13,
+      "chapter": "",
+      "section": "",
+      "block": "",
+      "item": "",
+      "content": "",
+      "type": "",
+      "tags": "",
+      "json": ""
+    },
+    {
+      "$row": 14,
+      "chapter": "References",
+      "section": "",
+      "block": "",
+      "item": "",
+      "content": "",
+      "type": "",
+      "tags": "",
+      "json": ""
+    },
+    {
+      "$row": 15,
+      "chapter": "",
+      "section": "",
+      "block": "Links",
+      "item": "",
+      "content": "",
+      "type": "",
+      "tags": "",
+      "json": ""
+    },
+    {
+      "$row": 16,
+      "chapter": "",
+      "section": "",
+      "block": "",
+      "item": "Metadata spreadsheet",
+      "content": "https://docs.google.com/spreadsheets/d/1utMcQnTSP3mom90dzFeCm-ZA0aCwT7rAHqiK4yJ3-DM/edit",
+      "type": "link",
+      "tags": "",
+      "json": ""
+    },
+    {
+      "$row": 17,
+      "chapter": "",
+      "section": "",
+      "block": "",
+      "item": "Design Spec",
+      "content": "https://docs.google.com/document/d/10igyAc4OclvXZAllQ214WISOIfYAhIWMZhGOpt5QxA0/edit?usp=sharing",
+      "type": "link",
+      "tags": "",
+      "json": ""
+    },
+    {
+      "$row": 18,
+      "chapter": "",
+      "section": "",
+      "block": "",
+      "item": "Figma",
+      "content": "https://www.figma.com/file/yDGDNyoSwjJElyCsIVRLXD/telomer?node-id=3%3A55",
+      "type": "link",
+      "tags": "",
+      "json": ""
+    },
+    {
+      "$row": 19,
+      "chapter": "",
+      "section": "",
+      "block": "Links2",
+      "item": "",
+      "content": "",
+      "type": "",
+      "tags": "",
+      "json": ""
+    },
+    {
+      "$row": 20,
+      "chapter": "",
+      "section": "",
+      "block": "",
+      "item": "Spectre.Css",
+      "content": "https://picturepan2.github.io/spectre/elements/icons.html",
+      "type": "link",
+      "tags": "",
+      "json": ""
+    },
+    {
+      "$row": 21,
+      "chapter": "",
+      "section": "",
+      "block": "",
+      "item": "Image",
+      "content": "https://picturepan2.github.io/spectre/img/osx-yosemite-2.jpg",
+      "type": "image",
+      "tags": "",
+      "json": ""
+    }
+  ],
+  "enums": {
+    "sitemap": [
+      {
+        "id": "main",
+        "name": "Main"
+      },
+      {
+        "id": "taskList",
+        "name": "Tasks"
+      },
+      {
+        "id": "issuesList",
+        "name": "Issues"
+      },
+      {
+        "id": "standup",
+        "name": "Stand-up"
+      },
+      {
+        "id": "inbox",
+        "name": "Inbox"
+      }
+    ],
+    "status": [
+      {
+        "color": "orange",
+        "id": "draft",
+        "name": "draft"
+      },
+      {
+        "color": "red",
+        "id": "ready",
+        "name": "ready"
+      },
+      {
+        "color": "green",
+        "id": "inprogress",
+        "name": "inprogress"
+      },
+      {
+        "color": "blue",
+        "id": "done",
+        "name": "done"
+      },
+      {
+        "color": "red",
+        "id": "reopen",
+        "name": "reopen"
+      },
+      {
+        "color": "red",
+        "id": "verified",
+        "name": "verified"
+      },
+      {
+        "color": "gray",
+        "id": "closed",
+        "name": "closed"
+      }
+    ],
+    "hoursStatus": [
+      {
+        "id": "planned",
+        "name": "planned"
+      },
+      {
+        "id": "done",
+        "name": "done"
+      },
+      {
+        "id": "verified",
+        "name": "verified"
+      },
+      {
+        "id": "blocked",
+        "name": "blocked"
+      },
+      {
+        "id": "rejected",
+        "name": "rejected"
+      }
+    ],
+    "tags": [
+      {
+        "id": "dev",
+        "name": "dev"
+      },
+      {
+        "id": "spike",
+        "name": "spike"
+      },
+      {
+        "id": "CR",
+        "name": "CR"
+      },
+      {
+        "id": "org",
+        "name": "org"
+      },
+      {
+        "id": "setup",
+        "name": "setup"
+      },
+      {
+        "id": "datamodel",
+        "name": "datamodel"
+      },
+      {
+        "id": "users",
+        "name": "users"
+      },
+      {
+        "id": "audit",
+        "name": "audit"
+      },
+      {
+        "id": "webUi",
+        "name": "webUi"
+      },
+      {
+        "id": "design",
+        "name": "design"
+      },
+      {
+        "id": "tg",
+        "name": "tg"
+      },
+      {
+        "id": "integration",
+        "name": "integration"
+      }
+    ],
+    "hours": [
+      {
+        "id": "1",
+        "name": "1"
+      },
+      {
+        "id": "2",
+        "name": "2"
+      },
+      {
+        "id": "3",
+        "name": "3"
+      },
+      {
+        "id": "4",
+        "name": "4"
+      },
+      {
+        "id": "8",
+        "name": "8"
+      }
+    ],
+    "assignee": [
+      {
+        "icon": "assets/dl.png",
+        "id": "dl",
+        "name": "Dan"
+      },
+      {
+        "icon": "assets/a2.png",
+        "id": "a2",
+        "name": "Alex"
+      }
+    ]
+  },
+  "app": {
+    "name": "TELOMER",
+    "version": "1.0.10",
+    "bigLogo": "https://picturepan2.github.io/spectre/img/osx-yosemite-2.jpg",
+    "initialTags": "open,prepared,inprogress,done,verified",
+    "description": "That project idea is to provide people with another custom solution for product development tracking with extra regards to agile methodology."
+  },
+  "itemForm": {
+    "tabs": {
+      "main": "General",
+      "time": "Timewise"
+    }
+  }
+}
