@@ -12,6 +12,7 @@ const functions = {
   rich(markup) {
     const html = converter.makeHtml(markup);
     const rootElement = this.$impl.$element;
+    rootElement.innerHTML = '';
     arrmatura(`${html}`, { rootElement })
   }
 }
