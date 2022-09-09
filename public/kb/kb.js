@@ -9,9 +9,10 @@ const { params } = urlParse(window.location.search);
 // appendScripts(['applyWebGlBg', 'TimeReportFieldController', 'standupAdapter']);
 const converter = new showdown.Converter();
 const functions = {
-  rich(rootElement, markup) {
+  rich(markup) {
     const html = converter.makeHtml(markup);
-    arrmatura(`${html}`, { types, resources, functions, rootElement })
+    const rootElement = this.$impl.$element;
+    arrmatura(`${html}`, { rootElement })
   }
 }
 

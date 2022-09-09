@@ -99,7 +99,7 @@
   <component id="RefText">
     <div class="">
       <b>{name}</b>
-      <div>{content}</div>
+      <div markup="{content|rich}"></div>
     </div>
   </component>
 

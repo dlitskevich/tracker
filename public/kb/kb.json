@@ -83,7 +83,7 @@
       "section": "",
       "block": "",
       "item": "Task",
-      "content": "an atomary piece of work, that is sheduled, assigned and provisioned.\nIt should be well determined, measurabe, reasonable, consistent with goals of the project.",
+      "content": "an atomary _piece of work_, that is \n - reasonable and *consistent* with goals of the project, \n - well defined in terms of how to do and when it done,\n - estimated and _scheduled_\n - assigned to the person who is responsible for\n - and provisioned with all necceesary requisitions and resources.",
       "type": "",
       "tags": "",
       "json": ""
