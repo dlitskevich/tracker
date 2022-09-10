@@ -1,7 +1,8 @@
 <component id="KbApp">
+  <NavigationService ui:ref="nav" title=":app.name" />
   <Sidebar caption="Telomer KB" sidebarWidth="300">
     <Sidebar:aside>
-      <NavTree data=":data" class="mx-2" level="1"/>
+      <NavTree data=":data|valuesOf|slice:1" class="mx-2" level="1"/>
       <div class="flex-1 centroid">
         <img src="assets/logo.svg" width="200px" height="200px" style="opacity:0.5" />
       </div>
@@ -9,42 +10,37 @@
         <span>Settings</span>
       </div>
     </Sidebar:aside>
-    <RefBook />
+    <RefBook ui:props="<-nav.route"/>
   </Sidebar>
 </component>
 
-<component id="NavTree">
-  <ul class="nav">
-    <li class="nav-item" ui:if="item.name" ui:for="item of data">
-      <a href="#{item.id}">
-        <span title="{item.name}">{item.name}</span>
-      </a>
-      <NavTree ui:if="{item.data|and:@level}" data="{item.data}" level="{level|or:0|minus:1}" />
-    </li>
-  </ul>
-</component>
 
 <component id="RefBook">
   <main>
-  <h1 class="centroid">:app.name</h1>
-    <RefImage name=":app.description" content=":app.bigLogo" />
-    <RefChapter ui:props="{chapter}" ui:for="chapter of :data|log:kbAdapter" />
+    <RefChapter ui:props=":data|dot:@page|log:kbAdapter" />
     <div style="height:30rem;"></div>
+  </main>
+</component>
+
+<component id="RefHero">
+  <main>
+  <div style="height:4rem;"></div>
+  <h1 class="centroid">:app.name</h1>
+  <RefImage name=":app.description" value=":app.bigLogo" />
   </main>
 </component>
 
 <component id="RefChapter">
   <article class="">
-    <div class="p-2 bg-secondary d-flex">
-
-      <a class="text-gray {class}" name="{id}">
+    <header class="p-2 bg-secondary d-flex" ui:if="name">
+      <a class="text-gray {class}" name="/{id}">
         <h3>{name}</h3>
       </a>
-      <div class="border-1 text-gray s-circle centroid mx-1 px-2" style="height:1.3rem;width:1.3rem;" data-showHint="{showHint|not}" click="->" ui:if="{content}">
+      <div class="border-1 text-gray s-circle centroid mx-1 px-2" style="height:1.3rem;width:1.3rem;" data-showHint="{showHint|not}" click="->" ui:if="{value}">
         <span>?</span>
       </div>
-    </div>
-    <p class="p-2 bg-secondary" ui:if="{showHint}">{content}</p>
+    </header>
+    <p class="p-2 bg-secondary" ui:if="{showHint}">{value}</p>
     <div class="p-2">
       <RefSection ui:props="{section}" ui:for="section of data" />
     </div>
@@ -54,14 +50,14 @@
 <component id="RefSection">
   <article class="">
     <div class="d-flex">
-      <a name="{id}">
+      <a href="#/{id}" name="/{id}" class="c-hand">
         <h4 style="display:inline-block;">{name}</h4>
       </a>
-      <div class="border-1 text-gray s-circle centroid mx-1 px-2" style="height:1.3rem;width:1.3rem;" data-showHint="{showHint|not}" click="->" ui:if="{content}">
+      <div class="border-1 text-gray s-circle centroid mx-1 px-2" style="height:1.3rem;width:1.3rem;" data-showHint="{showHint|not}" click="->" ui:if="{value}">
         <span>?</span>
       </div>
     </div>
-    <p class="p-2 bg-secondary" ui:if="{showHint}">{content}</p>
+    <p class="p-2 bg-secondary" ui:if="{showHint}">{value}</p>
 
     <div class="px-2" ui:for="block of data">
       <ui:tag tag="Ref{block.type|capitalize|or:Block}" ui:props="{block}" props="{block}" />
@@ -72,13 +68,13 @@
 <component id="RefBlock">
   <div class="d-flex" ui:if="{name}" data-opened="{opened|not}" click="->">
     <h5 style="padding-right:0.25rem;display:inline-block;transform: rotate({opened|then:90:0}deg)">▶</h5>
-    <a name="{id}" class="c-hand {class}">
+    <a  href="#/{id}" name="/{id}" class="c-hand">
       <h5 style="display:inline-block;">{name}</h5>
     </a>
     <span class="label label-warn" ui:if="{label}">{label}</span>
   </div>
   <div class="" ui:if="name|not|or:@opened">
-    <quote class="p-2" ui:if="{content}">{content}</quote>
+    <quote class="p-2" ui:if="{value}">{value}</quote>
     <ul class="nav {class}">
       <li class="nav-item {itemClass} {item.class}" ui:for="item of data">
         <ui:tag tag="Ref{item.type|capitalize|or:Text}" ui:props="{item}" item="{item}" level="{level|or:4}" />
@@ -90,7 +86,7 @@
 <component id="RefImage">
   <div class="">
     <figure class="figure">
-      <img class="img-responsive img-fit-cover" src="{content}" alt="{name}">
+      <img class="img-responsive img-fit-cover" src="{value}" alt="{name}">
         <figcaption class="figure-caption text-center">{name}</figcaption>
       </figure>
     </div>
@@ -99,15 +95,25 @@
   <component id="RefText">
     <div class="">
       <b>{name}</b>
-      <div markup="{content|rich}"></div>
+      <div attach="rich:@value"></div>
     </div>
   </component>
 
   <component id="RefLink">
-    <a href="{content}" target="_blank" class="c-hand {class}">
+    <a href="{value}" target="_blank" class="c-hand {class}">
       <span style="display:inline-block;">{name}</span>
       <span class="label label-warn" ui:if="{label}">{label}</span>
     </a>
   </component>
 
  
+<component id="NavTree">
+  <ul class="nav">
+    <li class="nav-item" ui:if="item.name" ui:for="item of data">
+      <a href="#/{item.id}">
+        <span title="{item.name}">{item.name}</span>
+      </a>
+      <NavTree ui:if="{item.data|and:@level}" data="{item.data}" level="{level|or:0|minus:1}" />
+    </li>
+  </ul>
+</component>

@@ -76,7 +76,6 @@
         </div>
       </Panel>
     </div>
-
   </component>
 
   <component id="DbLoadingIndicator">
