@@ -1,0 +1,44 @@
+.issue-header {
+  font-weight: 600;
+  border-bottom: 1px solid;
+  border-color: rgba(var(--primary-color-rgb), 0.05);
+  color: var(--primary-color);
+}
+
+.issue {
+  color: var(--primary-color);
+  border-radius: 0.1rem;
+}
+
+.issue:hover {
+  background-color: rgba(var(--primary-color-rgb), 0.05);
+}
+.issue .column,
+.issue-header .column {
+  justify-content: center;
+  align-items: center;
+}
+
+a.issue-link {
+  text-decoration: none;
+}
+
+#issue-list-page .badge[data-badge]::after {
+  background: rgba(var(--secondary-color-rgb), 0.3);
+}
+
+#issue-list-page .chip {
+  border-radius: 0.5rem;
+}
+
+#issue-list-page .bg-secondary {
+  background-color: rgba(var(--secondary-color-rgb), 0.1) !important;
+}
+
+#issue-list-page .navbar {
+  background-color: var(--main-color) !important;
+}
+
+.modal-overlay {
+  opacity: 0.7;
+}
