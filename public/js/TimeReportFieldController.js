@@ -1,10 +1,9 @@
 const { dateFormat } = window.arrmatura.lib;
 
 window.TimeReportFieldController = class TimeReportFieldController {
-  init() {
-    return {
-      actualData: !this.data?.length ? [] : JSON.parse(this.data),
-    };
+  setValue(v) {
+    this.value = v;
+    this.actualData = !v?.length ? [] : JSON.parse(v)
   }
   updateItemField(id, key, value) {
     return {
@@ -16,7 +15,9 @@ window.TimeReportFieldController = class TimeReportFieldController {
   }
   setActualData(data) {
     this.actualData = data;
-    this.onChange?.({ value: !data.length ? "" : JSON.stringify(data) });
+
+    const value = !data.length ? "" : JSON.stringify(data);
+    this.onChange?.({ value });
   }
   onUpdateField({ id, key, value }) {
     return this.updateItemField(id, key, value);

@@ -101,8 +101,8 @@
 </component>
 
 <component id="TimeReportField">
-  <TimeReportFieldController ui:ref="fieldCtrl" onChange="{onChange}" data="{value}" />
-  <div class="bg-white p-2" style="display:grid; grid-template-columns: 2fr 3fr 110px 5fr 40px;column-gap: 10px; row-gap: 10px;">
+  <TimeReportFieldController ui:ref="fieldCtrl" onChange="{onChange}" value="{value}" />
+  <div class="bg-white p-2" style="display:grid; grid-template-columns: 1fr 3fr 120px 5fr 40px;column-gap: 10px; row-gap: 10px;">
     <b>Hour</b>
     <b>Status</b>
     <b>Date</b>
@@ -121,4 +121,5 @@
       <Btn title="x" class="" data="{report.id|pack:id}" action="->fieldCtrl.delReport" />
     </ui:fragment>
   </div>
+  <div class="m-2 text-gray" ui:if="<-fieldCtrl.visualData|dot:length|not">No Time reports yet.</div>
 </component>
