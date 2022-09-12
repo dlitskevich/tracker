@@ -54,18 +54,29 @@
   </div>
 </component>
 
+<component id="TaskPageHeader">
+  <div style="flex:1; min-height:1.7rem;display:flex;align-items: center;">
+    <BackButton href="#/taskList" />
+    <h4 class="text-dark text-ellipsis" style="margin-bottom:0; flex:1;max-width:640px;">
+        {data.subject}
+    </h4>
+    <DbLoadingIndicator hot isLoading="<-db.isItemLoading" action="->db.item" data-id="{data.id}" error="<- db.error" />
+    <b class="chip p-2" style="color: white; background-color: {:enums.status|find:@data.status|dot:color|or:gray}">{data.status}</b>
+    <div class="ml-2">{data.ts|date}</div>
+  </div>
+</component>
+
 <component id="TaskPage">
   <ItemController ui:ref="controller" itemId="{itemId}" all="<- items.sortedData" upsert="-> db.upsert" />
   <main style="position: relative">
-    <Navbar caption="<- controller.itemTitle" badge="<-controller.item|dot:ts|date">
+    <Navbar>
       <Navbar:left>
-        <BackButton href="#/taskList" />
+        <TaskPageHeader data="<-controller.item" change="-> controller.change" />
       </Navbar:left>
       <Navbar:right>
-        <DbLoadingIndicator hot isLoading="<-db.isItemLoading" action="->db.item" data="{itemId|pack:id}" error="<- db.error" />
       </Navbar:right>
     </Navbar>
-    <TabbedForma meta=":forms.task" data="<-controller.item" change="-> controller.change" tabs=":itemForm.tabs" groups=":itemForm.groups" />
+    <GroupForma meta=":forms.task" data="<-controller.item" change="-> controller.change" tabs=":itemForm.tabs" groups=":itemForm.groups" />
     <div class="" style="min-height: 3rem"></div>
     <div bottom class="bg-secondary p-2" style="position:absolute;bottom:0;left:0;right:0;display:flex;justify-content: flex-end;">
       <NavListCursor class="flex-1" ui:props="<- controller.itemNavInfo" href="#/task?itemId=" />
