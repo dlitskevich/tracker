@@ -1,14 +1,23 @@
-const fetchTexts = (urls, fn) => Promise.all(urls.map(url => fetch(url)
-  .then((res) => res.text())
-)).then((texts) => fn(texts));
+const fetchTexts = (urls, fn) =>
+  Promise.all(urls.map((url) => fetch(url).then((res) => res.text()))).then(
+    (texts) => fn(texts)
+  );
 
-const appendScripts = urls => urls.forEach(x =>
-  document.getElementsByTagName('head')[0].appendChild(
-    Object.assign(document.createElement('script'), { type:'module', src: `js/${x}.js` })
-  )
-)
+const appendScripts = (urls) =>
+  urls.forEach((x) =>
+    document
+      .getElementsByTagName("head")[0]
+      .appendChild(
+        Object.assign(document.createElement("script"), {
+          type: "module",
+          src: `js/${x}.js`,
+        })
+      )
+  );
 
-const { lib: { dateFormat, urlParse } } = arrmatura;
+const {
+  lib: { dateFormat, urlParse },
+} = arrmatura;
 
 const { params } = urlParse(window.location.search);
 
@@ -31,13 +40,41 @@ const resources = {
 const functions = {
   applyWebGlBg(domElement) {
     setTimeout(() => {
-      applyWebGlBg(domElement)
+      applyWebGlBg(domElement);
     }, 20);
   },
+  applyMyTag(issues) {
+    for (const issue of issues) {
+      if (issue.myName === issue.user) {
+        const labels = new Set(issue.labels.split(","));
+        labels.add("my");
+        issue.labels = [...labels].join(",");
+      }
+    }
+    return issues;
+  },
+  resolveColor(color) {
+    switch (color) {
+      case "green":
+        return "var(--success-color)";
+      case "blue":
+        return "var(--secondary-color)";
+      default:
+        return "rgba(0,0,0,0.2)";
+    }
+  },
   ...window.adapters,
-}
+};
 
-const xmls = ['inbox', 'index', 'tasks', 'standup', 'user'].map(x => `xml/${x}.xml`);
+const xmls = [
+  "inbox",
+  "index",
+  "references",
+  "tasks",
+  "issues",
+  "standup",
+  "user",
+].map((x) => `xml/${x}.xml`);
 
 fetchTexts(xmls, (texts) => {
   // console.log(texts);
