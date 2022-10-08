@@ -1,0 +1,20 @@
+<component id="CustomModal">
+    <div class="modal modal-{mode} {open|then:active}" style="padding:0;">
+        <a class="modal-overlay" aria-label="Close" click="{close}"></a>
+        <div class="modal-container" style="padding:0;max-height: {mode|equals:lg|then:100:70}vh">
+            <div class="modal-header  bg-secondary" style="margin:0">
+                <a class="btn btn-lg btn-clear float-right" aria-label=":close" click="{close}"></a>
+                <div class="modal-title h5" ui:if="{title}">{title}</div>
+                <ui:slot id="header" />
+            </div>
+            <div class="modal-body" style="">
+                <div class="content">
+                    <ui:slot />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <ui:slot id="footer" />
+            </div>
+        </div>
+    </div>
+</component>

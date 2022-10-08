@@ -5,14 +5,12 @@ const fetchTexts = (urls, fn) =>
 
 const appendScripts = (urls) =>
   urls.forEach((x) =>
-    document
-      .getElementsByTagName("head")[0]
-      .appendChild(
-        Object.assign(document.createElement("script"), {
-          type: "module",
-          src: `js/${x}.js`,
-        })
-      )
+    document.getElementsByTagName("head")[0].appendChild(
+      Object.assign(document.createElement("script"), {
+        type: "module",
+        src: `js/${x}.js`,
+      })
+    )
   );
 
 const {
@@ -43,16 +41,6 @@ const functions = {
       applyWebGlBg(domElement);
     }, 20);
   },
-  applyMyTag(issues) {
-    for (const issue of issues) {
-      if (issue.myName === issue.user) {
-        const labels = new Set(issue.labels.split(","));
-        labels.add("my");
-        issue.labels = [...labels].join(",");
-      }
-    }
-    return issues;
-  },
   resolveColor(color) {
     switch (color) {
       case "green":
@@ -66,7 +54,10 @@ const functions = {
   ...window.adapters,
 };
 
+const commons = ["dropdown", "modal"];
+
 const xmls = [
+  ...commons.map((c) => `commons/${c}`),
   "inbox",
   "index",
   "references",

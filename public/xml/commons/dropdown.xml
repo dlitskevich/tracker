@@ -1,0 +1,17 @@
+<component id="DropdownStatus">
+    <div class="dropdown">
+        <a href="#" class="btn btn-link dropdown-toggle" tabindex="0" click="->" data-showMenu="{showMenu|not}">
+      {selected}<i class="icon icon-caret"></i>
+        </a>
+        <!-- menu component -->
+        <ui:fragment ui:if="showMenu">
+            <div style="position:fixed; right:0; top:0; left:0; bottom:0;" click="->showMenu=false"></div>
+            <ul class="menu" style="display:block; right: 0; left: auto">
+                <li ui:for="item of data" class="menu-item {item.id|equals:@value|then:active}" data-id="{item.id}" data-name="{item.name}" click="{change}">
+                    <a click="->selected=item.name" click2="->showMenu=false">{item.name}</a>
+                </li>
+            </ul>
+        </ui:fragment>
+
+    </div>
+</component>

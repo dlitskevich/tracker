@@ -1,6 +1,6 @@
 <component id="IssuesListPage">
-  <GSheetsService ui:ref="db" kind="inbox" persistence="local" submit="->api.post" />
-  <ItemCollectionController ui:ref="items" data="<- db.items| applyMyTag" initials="my,prepared,unread" />
+  <GSheetsService ui:ref="db" kind="tasks" persistence="local" submit="->api.post" />
+  <ItemCollectionController ui:ref="items" data="<- db.items" initials="my,open" />
   <IssuesList ui:props="<- items.info  | log:issues" />
   <NewIssueFacility />
 </component>
@@ -56,7 +56,7 @@
       </div>
       <div class="column d-flex col-1">
         <figure class="avatar avatar-l text-large" style="background-color: {:enums.status|find:@status|dot:color|or:gray}!important">
-          <img src="assets/{user}.png" title="{user}" />
+          <img src=":enums.assignee|find:@user|dot:icon" title="{user}" />
         </figure>
       </div>
       <div class="column d-flex col-2">
@@ -66,32 +66,6 @@
   </ui:tag>
 </component>
 
-<component id="IssuesListItemOld">
-  <div class="column col-12 col-sm-12 my-1 mx-0">
-    <div class="float-right p-2" style="max-height: 1rem;">
-      <span class="ml-2 text-gray">{ts|date}</span>
-    </div>
-    <div class="tile bt-1 p-2" style="border-left: 4px solid {:enums.status|find:@status|dot:color|or:gray};">
-      <div class="tile-icon">
-        <ui:tag tag="{myRole|equals:reviewer|then:b:a}" href="#/task?itemId={id}">
-          <figure class="avatar avatar-l text-large" style="background-color: {:enums.status|find:@status|dot:color|or:gray}!important">
-            <img src="assets/{user}.png" title="{user}" />
-          </figure>
-        </ui:tag>
-      </div>
-      <div class="tile-content">
-        <ui:tag tag="{myRole|equals:reviewer|then:b:a}" href="#/task?itemId={id}">
-          <h6 class="tile-title text-bold text-dark" title="{subject}">{subject|or:@name}</h6>
-        </ui:tag>
-        <div>
-          <span class="label p-1" style="color: {:enums.status|find:@status|dot:color|or:gray}!important" ui:if="{status}">{status}</span>
-          <span class="ml-1" ui:if="{tags}">({tags})</span>
-        </div>
-      </div>
-    </div>
-    <!-- <div class="divider"></div> -->
-  </div>
-</component>
 
 <component id="NewIssueFacility">
   <NewItemController ui:ref="newItem" upsert="-> db.upsert" />
@@ -110,71 +84,34 @@
 
 </component>
 
-<component id="CustomModal">
-  <div class="modal modal-{mode} {open|then:active}" style="padding:0;">
-    <a class="modal-overlay" aria-label="Close" click="{close}"></a>
-    <div class="modal-container" style="padding:0;max-height: {mode|equals:lg|then:100:70}vh">
-      <div class="modal-header  bg-secondary" style="margin:0">
-        <a class="btn btn-lg btn-clear float-right" aria-label=":close" click="{close}"></a>
-        <div class="modal-title h5" ui:if="{title}">{title}</div>
-        <ui:slot id="header" />
-      </div>
-      <div class="modal-body" style="">
-        <div class="content">
-          <ui:slot />
-        </div>
-      </div>
-      <div class="modal-footer">
-        <ui:slot id="footer" />
-      </div>
-    </div>
+<!-- IssuesPage -->
+<component id="IssuePageHeader">
+  <div style="flex:1; min-height:1.7rem;display:flex;align-items: center;">
+    <BackButton href="#/issuesList" />
+    <h4 class="text-dark text-ellipsis" style="margin-bottom:0; flex:1;max-width:640px;">
+        {data.subject}
+    </h4>
+    <DbLoadingIndicator hot isLoading="<-db.isItemLoading" action="->db.item" data-id="{data.id}" error="<- db.error" />
+    <b class="chip p-2" style="color: white; background-color: {:enums.status|find:@data.status|dot:color|or:gray}">{data.status}</b>
+    <div class="ml-2">{data.ts|date}</div>
   </div>
 </component>
 
-
-<!-- IssuesPage -->
 <component id="IssuePage">
-  <GSheetsService ui:ref="db" kind="inbox" persistence="local" submit="->api.post" />
-  <ItemCollectionController ui:ref="items" data="<- db.items" initials="important,unread" />
   <ItemController ui:ref="controller" itemId="{itemId}" all="<- items.sortedData" upsert="-> db.upsert" />
-  <main style="position: relative; max-width:unset">
-    <Navbar caption="<- controller.itemTitle" badge="<-controller.item|dot:ts|date">
+  <main style="position: relative">
+    <Navbar>
       <Navbar:left>
-        <BackButton href="#/issuesList" />
+        <IssuePageHeader data="<-controller.item" change="-> controller.change" />
       </Navbar:left>
       <Navbar:right>
-        <DbLoadingIndicator hot isLoading="<-db.isItemLoading" action="->db.item" data="{itemId|pack:id}" error="<- db.error" />
       </Navbar:right>
     </Navbar>
-    <TabbedForma meta=":forms.task" data="<-controller.item" change="-> controller.change" tabs=":itemForm.tabs" groups=":itemForm.groups" />
+    <GroupForma meta=":forms.task" data="<-controller.item" change="-> controller.change" tabs=":itemForm.tabs" groups=":itemForm.groups" />
     <div class="" style="min-height: 3rem"></div>
     <div bottom class="bg-secondary p-2" style="position:absolute;bottom:0;left:0;right:0;display:flex;justify-content: flex-end;">
       <NavListCursor class="flex-1" ui:props="<- controller.itemNavInfo" href="#/task?itemId=" />
       <Btn icon="upload" title="Submit" mode="primary" large action="-> controller.save" busy="<- db.busy" disabled="<- controller.touched|not" />
     </div>
   </main>
-</component>
-
-
-<component id="TimeReportField2">
-  <TimeReportFieldController ui:ref="fieldCtrl" onChange="{onChange}" data="{value}" />
-  <div class="bg-white p-2" style="display:grid; grid-template-columns: 2fr 3fr 110px 5fr 40px;column-gap: 10px; row-gap: 10px;">
-    <b>Hour</b>
-    <b>Status</b>
-    <b>Date</b>
-    <b>Note</b>
-    <Btn title="+" primary class="" action="->fieldCtrl.addReport" />
-
-    <ui:fragment ui:for="report of <-fieldCtrl.visualData">
-      <select value="{report.hours}" change="->fieldCtrl.updateField|assignKeyValue:key:hours|assignKeyValue:id:@report.id">
-        <option ui:for="option of :enums.hours" selected="{option.id|equals:@report.hours}" value="{option.id}">{option.name}</option>
-      </select>
-      <select value="{report.status}" change="->fieldCtrl.updateField|assignKeyValue:key:status|assignKeyValue:id:@report.id">
-        <option ui:for="option of :enums.hoursStatus" selected="{option.id|equals:@report.status}" value="{option.id}">{option.name}</option>
-      </select>
-      <input value="{report.date}" type="date" change="->fieldCtrl.updateField|assignKeyValue:key:date|assignKeyValue:id:@report.id" />
-      <input value="{report.note}" change="->fieldCtrl.updateField|assignKeyValue:key:note|assignKeyValue:id:@report.id" />
-      <Btn title="x" class="" data="{report.id|pack:id}" action="->fieldCtrl.delReport" />
-    </ui:fragment>
-  </div>
 </component>

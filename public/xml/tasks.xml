@@ -37,7 +37,7 @@
       <div class="tile-icon">
         <a href="#/task?itemId={id}">
           <figure class="avatar avatar-l text-large" style="background-color: {:enums.status|find:@status|dot:color|or:gray}!important">
-            <img src="assets/{user}.png" title="{user}" />
+            <img src=":enums.assignee|find:@user|dot:icon" title="{user}"/>
           </figure>
         </a>
       </div>
