@@ -54,7 +54,7 @@ const functions = {
   ...window.adapters,
 };
 
-const commons = ["dropdown", "modal"];
+const commons = ["dropdown", "modal", "news"];
 
 const xmls = [
   ...commons.map((c) => `commons/${c}`),

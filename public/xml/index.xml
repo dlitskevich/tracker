@@ -48,6 +48,8 @@
       </div>
     </div> -->
     <main>
+      <NewsBlock title="Congratulations to Alex!" content="Today, we are happy to congratulate Alex on his 1-st Birthday at our yet small growing company! &#10; 
+        We are looking forward to working on new adventurous projects together!" date="09.10.2022" mode="rainbow"/>
       <div class="columns mx-0">
         <BigPanel caption="Health Status" color="green" number="97%" subtext="shiny green" image="s3.png" />
         <BigPanel caption="Inbox" color="red" number="12" subtext="unread" image="s2.png" />
