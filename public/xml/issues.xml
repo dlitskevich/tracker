@@ -8,15 +8,15 @@
 <component id="IssuesList">
   <main id="issue-list-page" scrolledDown="-> items.showMore" scroll="->scrolledDown|dot:value|greater:50" style="max-width:unset">
     <a name="top"></a>
-    <Navbar caption="Issues" badge="{counts|showCounts}">
+    <Navbar caption="Issues" badge="@counts|showCounts">
       <Navbar:right>
         <DbLoadingIndicator isLoading="<-db.isLoading" action="->db.reload" />
-        <SearchBarWithSuggestions ui:props="{search}" />
+        <SearchBarWithSuggestions ui:props="@search" />
       </Navbar:right>
     </Navbar>
 
-    <AsyncLoader isLoading="{data|not}" title="Loading data" subtitle="🚀 initial dataset" error="<- db.error" onError="-> db.reload">
-      <Chips data="{tags}" click="-> items.tag" />
+    <AsyncLoader isLoading="@data|not" title="Loading data" subtitle="🚀 initial dataset" error="<- db.error" onError="-> db.reload">
+      <Chips data="@tags" click="-> items.tag" />
       <EmptyData title="No data" ui:if="data.length|not">
         <ui:else>
           <div class="column  mx-0">
@@ -35,28 +35,28 @@
                 <span>Created</span>
               </div>
             </div>
-            <IssuesListItem ui:props="{item}" itemClick="{openEntry}" ui:for="item of data" />
+            <IssuesListItem ui:props="@item" itemClick="@openEntry" ui:for="item of data" />
           </div>
         </ui:else>
       </EmptyData>
     </AsyncLoader>
   </main>
-  <a class="centroid s-circle scroll-to-top-button" href="#top" ui:if="{scrolledDown}">⬆</a>
+  <a class="centroid s-circle scroll-to-top-button" href="#top" ui:if="@scrolledDown">⬆</a>
 </component>
 
 <component id="IssuesListItem">
-  <ui:tag class="issue-link" tag="{myRole|equals:reviewer|then:b:a}" href="#/issue?itemId={id}">
+  <ui:tag class="issue-link" tag="@myRole|equals:reviewer|then:b:a" href="#/issue?itemId={id}">
     <div class="issue columns  my-2">
       <div class="column d-flex col-2">{id}</div>
       <div class="column d-flex col-5" style="align-items: flex-start">
         <span>{subject}</span>
       </div>
       <div class="column d-flex col-2">
-        <span class="label p-1" style="background-color: {:enums.status|find:@status|dot:color|resolveColor}!important; color:white" ui:if="{status}">{:enums.status|find:@status|dot:caption|or:@status}</span>
+        <span class="label p-1" style="background-color: {:enums.status|find:@status|dot:color|resolveColor}!important; color:white" ui:if="@status">{:enums.status|find:@status|dot:caption|or:@status}</span>
       </div>
       <div class="column d-flex col-1">
         <figure class="avatar avatar-l text-large" style="background-color: {:enums.status|find:@status|dot:color|or:gray}!important">
-          <img src=":enums.assignee|find:@user|dot:icon" title="{user}" />
+          <img src=":enums.assignee|find:@user|dot:icon" title="@user" />
         </figure>
       </div>
       <div class="column d-flex col-2">
@@ -74,11 +74,11 @@
 </component>
 
 <component id="IssuesCreateModal">
-  <!-- <div ui:if="{open}" click="-> newItem.cancel" style="position:fixed; top:0; bottom:0; left:0; right:0; background-color: black; opacity:0.3; z-index: 400;"> -->
-  <CustomModal ui:if="{open}" mode="lg" open="{open}" title="Add a new record" close="-> newItem.cancel">
-    <GroupForma meta=":forms.task_new" data="{data}" change="->data" />
+  <!-- <div ui:if="@open" click="-> newItem.cancel" style="position:fixed; top:0; bottom:0; left:0; right:0; background-color: black; opacity:0.3; z-index: 400;"> -->
+  <CustomModal ui:if="@open" mode="lg" open="@open" title="Add a new record" close="-> newItem.cancel">
+    <GroupForma meta=":forms.task_new" data="@data" change="->data" />
     <CustomModal:footer>
-      <Btn icon="upload" title="Submit New" mode="primary" large data="{data}" action="-> newItem.submit" busy="<- db.busy" />
+      <Btn icon="upload" title="Submit New" mode="primary" large data="@data" action="-> newItem.submit" busy="<- db.busy" />
     </CustomModal:footer>
   </CustomModal>
 
@@ -91,14 +91,14 @@
     <h4 class="text-dark text-ellipsis" style="margin-bottom:0; flex:1;max-width:640px;">
         {data.subject}
     </h4>
-    <DbLoadingIndicator hot isLoading="<-db.isItemLoading" action="->db.item" data-id="{data.id}" error="<- db.error" />
+    <DbLoadingIndicator hot isLoading="<-db.isItemLoading" action="->db.item" data-id="@data.id" error="<- db.error" />
     <b class="chip p-2" style="color: white; background-color: {:enums.status|find:@data.status|dot:color|or:gray}">{data.status}</b>
     <div class="ml-2">{data.ts|date}</div>
   </div>
 </component>
 
 <component id="IssuePage">
-  <ItemController ui:ref="controller" itemId="{itemId}" all="<- items.sortedData" upsert="-> db.upsert" />
+  <ItemController ui:ref="controller" itemId="@itemId" all="<- items.sortedData" upsert="-> db.upsert" />
   <main style="position: relative">
     <Navbar>
       <Navbar:left>

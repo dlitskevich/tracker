@@ -2,7 +2,7 @@
 
   <component id="App">
     <ToastService ui:ref="toasters" />
-    <MetadataService ui:ref="meta" url="{metaUrl}" lang="{lang}" />
+    <MetadataService ui:ref="meta" url="@metaUrl" lang="@lang" />
     <AsyncLoader isLoading="<-meta.ready|not" title="🚀 Launching app" subtitle="check for the actual version" error="<-meta.error" onError="-> nav.reload">
       <AuthService ui:ref="auth" authUrl="{:apiBaseUrl}" persistence="local" initialToken=":params.token" afterSignedOut="->nav.reload" />
       <SignInPage ui:if="<-auth.isSignedIn|not">
@@ -60,17 +60,17 @@
   </component>
 
   <component id="SettingsModal">
-    <Modal title="Settings" open="true" close="{close}">
-      <Forma meta=":forms.profile" data="{data}" change="-> data" />
+    <Modal title="Settings" open="true" close="@close">
+      <Forma meta=":forms.profile" data="@data" change="-> data" />
       <Modal:footer>
-        <Btn icon="people" title="Save settings" mode="primary" large data="{data}" action="-> user.save" busy="<- user.isLoading"/>
+        <Btn icon="people" title="Save settings" mode="primary" large data="@data" action="-> user.save" busy="<- user.isLoading"/>
       </Modal:footer>
     </Modal>
   </component>
 
   <component id="BigPanel">
     <div class="column col-6 col-sm-12 my-1 mx-0">
-      <Panel caption="{caption}">
+      <Panel caption="@caption">
         <div class="d-flex" style="flex-direction:column; align-items:center;">
           <h1 style="color:{color};">{number}</h1>
           <h3 style="color:{color};">{subtext}</h3>
@@ -81,11 +81,11 @@
   </component>
 
   <component id="DbLoadingIndicator">
-    <Invoke data="{data}" trigger="{data.id}" action="{action}" ui:if="hot" />
+    <Invoke data="@data" trigger="@data.id" action="@action" ui:if="hot" />
     <ui:fragment ui:if="isLoading">
       <LoadingIndicator class="m-2" />
       <ui:else>
-        <a click="{action}" data="{data}" class="m-2">
+        <a click="@action" data="@data" class="m-2">
           <Icon type="refresh" />
         </a>
       </ui:else>

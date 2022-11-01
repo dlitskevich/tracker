@@ -8,25 +8,25 @@
   <component id="InboxList">
     <main scrolledDown="-> items.showMore" scroll="->scrolledDown|dot:value|greater:50">
       <a name="top"></a>
-      <Navbar caption="Inbox" badge="{counts|showCounts}">
+      <Navbar caption="Inbox" badge="@counts|showCounts">
         <Navbar:right>
           <DbLoadingIndicator isLoading="<-db.isLoading" action="->db.reload"/>
-          <SearchBarWithSuggestions ui:props="{search}" />
+          <SearchBarWithSuggestions ui:props="@search" />
         </Navbar:right>
       </Navbar>
 
-      <AsyncLoader isLoading="{data|not}" title="Loading data" subtitle="🚀 initial dataset" error="<- db.error" onError="-> db.reload">
-        <Chips data="{tags}" click="-> items.tag"/>
+      <AsyncLoader isLoading="@data|not" title="Loading data" subtitle="🚀 initial dataset" error="<- db.error" onError="-> db.reload">
+        <Chips data="@tags" click="-> items.tag"/>
         <EmptyData title="Empty inbox" ui:if="data.length|not">
           <ui:else>
             <div class="columns  mx-0">
-              <InboxListItem ui:props="{item}" itemClick="{openEntry}" ui:for="item of data" />
+              <InboxListItem ui:props="@item" itemClick="@openEntry" ui:for="item of data" />
             </div>
           </ui:else>
         </EmptyData>
       </AsyncLoader>
     </main>
-    <a class="centroid s-circle scroll-to-top-button" href="#top" ui:if="{scrolledDown}">⬆</a>
+    <a class="centroid s-circle scroll-to-top-button" href="#top" ui:if="@scrolledDown">⬆</a>
   </component>
 
   <component id="InboxListItem">
@@ -36,19 +36,19 @@
       </div>
       <div class="tile bt-1 p-2" style="border-left: 4px solid {:enums.status|find:@status|dot:color|or:gray};">
         <div class="tile-icon">
-          <ui:tag tag="{myRole|equals:reviewer|then:b:a}" href="#/task?itemId={id}">
+          <ui:tag tag="@myRole|equals:reviewer|then:b:a" href="#/task?itemId={id}">
             <figure class="avatar avatar-l text-large" style="background-color: {:enums.status|find:@status|dot:color|or:gray}!important">
-              <img src="assets/{user}.png" title="{user}"/>
+              <img src="assets/{user}.png" title="@user"/>
             </figure>
           </ui:tag>
         </div>
         <div class="tile-content">
-          <ui:tag tag="{myRole|equals:reviewer|then:b:a}" href="#/message?itemId={id}">
-            <h6 class="tile-title text-bold text-dark" title="{subject}">{subject|or:@name}</h6>
+          <ui:tag tag="@myRole|equals:reviewer|then:b:a" href="#/message?itemId={id}">
+            <h6 class="tile-title text-bold text-dark" title="@subject">{subject|or:@name}</h6>
           </ui:tag>
           <div>
-            <span class="label p-1" style="color: {:enums.status|find:@status|dot:color|or:gray}!important" ui:if="{status}">{status}</span>
-            <span class="ml-1" ui:if="{tags}">({tags})</span>
+            <span class="label p-1" style="color: {:enums.status|find:@status|dot:color|or:gray}!important" ui:if="@status">{status}</span>
+            <span class="ml-1" ui:if="@tags">({tags})</span>
           </div>
         </div>
       </div>
@@ -60,14 +60,14 @@
   <component id="MessagePage">
     <GSheetsService ui:ref="db" kind="inbox" persistence="local" submit="->api.post"/>
     <ItemCollectionController ui:ref="items" data="<- db.items" initials="important,unread" />
-    <ItemController ui:ref="controller" itemId="{itemId}" all="<- items.sortedData" upsert="-> db.upsert" />
+    <ItemController ui:ref="controller" itemId="@itemId" all="<- items.sortedData" upsert="-> db.upsert" />
     <main style="position: relative">
       <Navbar caption="<- controller.itemTitle" badge="<-controller.item|dot:ts|date">
         <Navbar:left>
           <BackButton href="#/inbox" />
         </Navbar:left>
         <Navbar:right>
-          <DbLoadingIndicator hot isLoading="<-db.isItemLoading" action="->db.item" data="{itemId|pack:id}" error="<- db.error"/>
+          <DbLoadingIndicator hot isLoading="<-db.isItemLoading" action="->db.item" data="@itemId|pack:id" error="<- db.error"/>
         </Navbar:right>
       </Navbar>
       <TabbedForma meta=":forms.message" data="<-controller.item" change="-> controller.change" tabs=":itemForm.tabs" groups=":itemForm.groups" />

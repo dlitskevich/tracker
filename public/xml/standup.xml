@@ -10,7 +10,7 @@
         <DbLoadingIndicator isLoading="<- dbReport.isLoading" action="-> dbReport.reload"/>
       </Navbar:right>
     </Navbar>
-    <StandupListItem ui:props="{item}" itemClick="{openEntry}" ui:for="item of data" />
+    <StandupListItem ui:props="@item" itemClick="@openEntry" ui:for="item of data" />
   </main>
 </component>
 
@@ -26,20 +26,20 @@
 </component>
 
 <component id="StandupListItem">
-  <Panel caption="{name}">
+  <Panel caption="@name">
     <div class="tile bt-1 p-2">
       <div class="tile-icon">
-        <ui:tag tag="{myRole|equals:reviewer|then:b:a}" href="#/task?itemId={id}">
+        <ui:tag tag="@myRole|equals:reviewer|then:b:a" href="#/task?itemId={id}">
           <figure class="avatar avatar-l text-large">
-            <img src="{icon}" title="{name}"/>
+            <img src="@icon" title="@name"/>
           </figure>
         </ui:tag>
       </div>
       <div class="tile-content">
         <div style="display:grid; grid-template-columns: 1fr 1fr 1fr;column-gap: 10px; row-gap: 10px;">
-          <StandupListItemCell caption="performed" ui:props="{reports.performed}"/>
-          <StandupListItemCell caption="planned" ui:props="{reports.planned}"/>
-          <StandupListItemCell caption="blockers" ui:props="{reports.blocked}"/>
+          <StandupListItemCell caption="performed" ui:props="@reports.performed"/>
+          <StandupListItemCell caption="planned" ui:props="@reports.planned"/>
+          <StandupListItemCell caption="blockers" ui:props="@reports.blocked"/>
         </div>
       </div>
     </div>

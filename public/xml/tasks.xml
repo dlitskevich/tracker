@@ -6,25 +6,25 @@
 <component id="TasksList">
   <main scrolledDown="-> items.showMore" scroll="->scrolledDown|dot:value|greater:50">
     <a name="top"></a>
-    <Navbar caption="Tasks" badge="{counts|showCounts}">
+    <Navbar caption="Tasks" badge="@counts|showCounts">
       <Navbar:right>
         <DbLoadingIndicator isLoading="<-db.isLoading" action="->db.reload" />
-        <SearchBarWithSuggestions ui:props="{search}" />
+        <SearchBarWithSuggestions ui:props="@search" />
       </Navbar:right>
     </Navbar>
 
-    <AsyncLoader isLoading="{data|not}" title="Loading data" subtitle="🚀 initial dataset" error="<- db.error" onError="-> db.reload">
-      <Chips data="{tags}" click="-> items.tag" />
+    <AsyncLoader isLoading="@data|not" title="Loading data" subtitle="🚀 initial dataset" error="<- db.error" onError="-> db.reload">
+      <Chips data="@tags" click="-> items.tag" />
       <EmptyData title="No data" ui:if="data.length|not">
         <ui:else>
           <div class="columns  mx-0">
-            <TasksListItem ui:props="{item}" itemClick="{openEntry}" ui:for="item of data" />
+            <TasksListItem ui:props="@item" itemClick="@openEntry" ui:for="item of data" />
           </div>
           <div style="min-height: 7rem;"></div>
         </ui:else>
       </EmptyData>
     </AsyncLoader>
-    <a class="centroid s-circle scroll-to-top-button" href="#top" ui:if="{scrolledDown}">⬆</a>
+    <a class="centroid s-circle scroll-to-top-button" href="#top" ui:if="@scrolledDown">⬆</a>
   </main>
 </component>
 
@@ -37,17 +37,17 @@
       <div class="tile-icon">
         <a href="#/task?itemId={id}">
           <figure class="avatar avatar-l text-large" style="background-color: {:enums.status|find:@status|dot:color|or:gray}!important">
-            <img src=":enums.assignee|find:@user|dot:icon" title="{user}"/>
+            <img src=":enums.assignee|find:@user|dot:icon" title="@user"/>
           </figure>
         </a>
       </div>
       <div class="tile-content">
         <a href="#/task?itemId={id}">
-          <h6 class="tile-title text-bold text-dark" title="{subject}">{subject|or:@name}</h6>
+          <h6 class="tile-title text-bold text-dark" title="@subject">{subject|or:@name}</h6>
         </a>
         <div>
-          <b class="chip p-2" style="color: {:enums.status|find:@status|dot:color|or:gray}" ui:if="{status}">{status}</b>
-          <span class="ml-1" ui:if="{tags}">{tags}</span>
+          <b class="chip p-2" style="color: {:enums.status|find:@status|dot:color|or:gray}" ui:if="@status">{status}</b>
+          <span class="ml-1" ui:if="@tags">{tags}</span>
         </div>
       </div>
     </div>
@@ -60,14 +60,14 @@
     <h4 class="text-dark text-ellipsis" style="margin-bottom:0; flex:1;max-width:640px;">
         {data.subject}
     </h4>
-    <DbLoadingIndicator hot isLoading="<-db.isItemLoading" action="->db.item" data-id="{data.id}" error="<- db.error" />
+    <DbLoadingIndicator hot isLoading="<-db.isItemLoading" action="->db.item" data-id="@data.id" error="<- db.error" />
     <b class="chip p-2" style="color: white; background-color: {:enums.status|find:@data.status|dot:color|or:gray}">{data.status}</b>
     <div class="ml-2">{data.ts|date}</div>
   </div>
 </component>
 
 <component id="TaskPage">
-  <ItemController ui:ref="controller" itemId="{itemId}" all="<- items.sortedData" upsert="-> db.upsert" />
+  <ItemController ui:ref="controller" itemId="@itemId" all="<- items.sortedData" upsert="-> db.upsert" />
   <main style="position: relative">
     <Navbar>
       <Navbar:left>
@@ -92,16 +92,16 @@
 </component>
 
 <component id="TasksCreateModal">
-  <Modal ui:if="{open}" mode="lg" open="{open}" title="Add a new record" close="-> newItem.cancel">
-    <GroupForma meta=":forms.task_new" data="{data}" change="->data" />
+  <Modal ui:if="@open" mode="lg" open="@open" title="Add a new record" close="-> newItem.cancel">
+    <GroupForma meta=":forms.task_new" data="@data" change="->data" />
     <Modal:footer>
-      <Btn icon="upload" title="Submit New" mode="primary" large data="{data}" action="-> newItem.submit" busy="<- db.busy" />
+      <Btn icon="upload" title="Submit New" mode="primary" large data="@data" action="-> newItem.submit" busy="<- db.busy" />
     </Modal:footer>
   </Modal>
 </component>
 
 <component id="TimeReportField">
-  <TimeReportFieldController ui:ref="fieldCtrl" onChange="{onChange}" value="{value}" />
+  <TimeReportFieldController ui:ref="fieldCtrl" onChange="@onChange" value="@value" />
   <div class="bg-white p-2" style="display:grid; grid-template-columns: 1fr 3fr 120px 5fr 40px;column-gap: 10px; row-gap: 10px;">
     <b>Hour</b>
     <b>Status</b>
@@ -110,15 +110,15 @@
     <Btn title="+" primary class="" action="->fieldCtrl.addReport" />
 
     <ui:fragment ui:for="report of <-fieldCtrl.visualData">
-      <select value="{report.hours}" change="->fieldCtrl.updateField|assignKeyValue:key:hours|assignKeyValue:id:@report.id">
-        <option ui:for="option of :enums.hours" selected="{option.id|equals:@report.hours}" value="{option.id}">{option.name}</option>
+      <select value="@report.hours" change="->fieldCtrl.updateField|assignKeyValue:key:hours|assignKeyValue:id:@report.id">
+        <option ui:for="option of :enums.hours" selected="@option.id|equals:@report.hours" value="@option.id">{option.name}</option>
       </select>
-      <select value="{report.status}" change="->fieldCtrl.updateField|assignKeyValue:key:status|assignKeyValue:id:@report.id">
-        <option ui:for="option of :enums.hoursStatus" selected="{option.id|equals:@report.status}" value="{option.id}">{option.name}</option>
+      <select value="@report.status" change="->fieldCtrl.updateField|assignKeyValue:key:status|assignKeyValue:id:@report.id">
+        <option ui:for="option of :enums.hoursStatus" selected="@option.id|equals:@report.status" value="@option.id">{option.name}</option>
       </select>
-      <input value="{report.date}" type="date" change="->fieldCtrl.updateField|assignKeyValue:key:date|assignKeyValue:id:@report.id" />
-      <input value="{report.note}" change="->fieldCtrl.updateField|assignKeyValue:key:note|assignKeyValue:id:@report.id" />
-      <Btn title="x" class="" data="{report.id|pack:id}" action="->fieldCtrl.delReport" />
+      <input value="@report.date" type="date" change="->fieldCtrl.updateField|assignKeyValue:key:date|assignKeyValue:id:@report.id" />
+      <input value="@report.note" change="->fieldCtrl.updateField|assignKeyValue:key:note|assignKeyValue:id:@report.id" />
+      <Btn title="x" class="" data="@report.id|pack:id" action="->fieldCtrl.delReport" />
     </ui:fragment>
   </div>
   <div class="m-2 text-gray" ui:if="<-fieldCtrl.visualData|dot:length|not">No Time reports yet.</div>
