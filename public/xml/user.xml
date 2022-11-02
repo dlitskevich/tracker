@@ -4,7 +4,7 @@
       <ui:fragment ui:if="signup">
         <ui:then>
           <Navbar caption="Sign Up"/>
-          <Forma meta=":signup_form" change="-> data" />
+          <Forma meta="@R.signup_form" change="-> data" />
           <div class="flex-1"></div>
           <div bottom class="bg-secondary p-2 d-flex" style="justify-content: flex-end;">
             <a class="flex-1" click="-> signup=false">Sign In</a>
@@ -13,7 +13,7 @@
         </ui:then>
         <ui:else>
           <Navbar caption="Sign In"/>
-          <Forma meta=":sign_in_form" change="-> data" />
+          <Forma meta="@R.sign_in_form" change="-> data" />
           <div class="flex-1"></div>
           <div bottom class="bg-secondary p-2 d-flex" style="justify-content: flex-end;">
             <a class="flex-1" click="-> signup=true">Sign Up</a>
